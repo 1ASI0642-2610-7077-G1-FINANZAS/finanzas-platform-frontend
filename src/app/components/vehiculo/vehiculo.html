@@ -1,0 +1,241 @@
+
+<body>
+<div class="dashboard-container">
+
+  <header class="top-navbar">
+    <div class="nav-brand">QCS FINANCE</div>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar expedientes, VIN o clientes...">
+      </div>
+      <div class="user-profile"><span class="avatar-initials">AV</span></div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar-aside">
+      <div class="sidebar-top-branding">
+        <span class="sidebar-brand-name">QCS FINANCE</span>
+        <span class="sidebar-brand-division">Institutional Credit Systems</span>
+      </div>
+
+      <nav class="sidebar-menu-links">
+        <a class="menu-link-item">
+          <span class="menu-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+        <a class="menu-link-item active">
+          <span class="menu-icon">🚗</span>
+          <span>Vehicle Valuation</span>
+        </a>
+        <a class="menu-link-item">
+          <span class="menu-icon">🧮</span>
+          <span>Credit Simulator</span>
+        </a>
+        <a class="menu-link-item">
+          <span class="menu-icon">📋</span>
+          <span>Amortization Logs</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom-actions">
+        <a class="menu-link-item" style="color:#76777D;font-size:12px">⚙ Support</a>
+        <a class="menu-link-item logout-action" style="font-size:12px">↩ Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="main-workspace-scroller">
+      <div class="workspace-centered-restrictor">
+
+        <div class="workspace-view-header">
+          <h1 class="view-title">Selección de Vehículo</h1>
+          <p class="view-subtitle">Gestione el inventario disponible o registre una nueva unidad para iniciar el proceso de evaluación crediticia.</p>
+        </div>
+
+        <!-- FILTER TOOLBAR -->
+        <div class="filter-toolbar">
+          <span class="filter-toolbar-label">FILTROS</span>
+          <button class="filter-chip active">Todas las Marcas</button>
+          <button class="filter-chip">Toyota</button>
+          <button class="filter-chip">Volkswagen</button>
+          <button class="filter-chip">Hyundai</button>
+          <button class="filter-chip">Todos los Años</button>
+          <div class="filter-spacer"></div>
+        </div>
+
+        <!-- VEHICLE GRID -->
+        <div class="vehicle-grid">
+
+          <!-- Card 1 -->
+          <div class="vehicle-card">
+            <div class="vehicle-card-img-placeholder">
+              <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="Toyota Hilux" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-top">
+                <span class="vehicle-card-name">Toyota Hilux 4x4</span>
+                <div class="vehicle-price-block">
+                  <span class="vehicle-price-label">PRECIO BASE</span>
+                  <span class="vehicle-price-value">$ 42,500</span>
+                </div>
+              </div>
+              <div class="vehicle-card-variant">Doble Cabina SRV</div>
+              <span class="status-badge badge-available">● Disponible</span>
+              <div class="vehicle-card-divider" style="margin-top:12px"></div>
+              <div class="vehicle-card-meta">
+                <div>
+                  <div class="meta-item-label">AÑO</div>
+                  <div class="meta-item-value">2024</div>
+                </div>
+                <div>
+                  <div class="meta-item-label">COMBUSTIBLE</div>
+                  <div class="meta-item-value">Diésel</div>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-card-footer">
+              <button class="btn-card-secondary">Ver Detalles</button>
+              <button class="btn-card-primary">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="vehicle-card">
+            <div class="vehicle-card-img-placeholder">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80" alt="VW Jetta" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-top">
+                <span class="vehicle-card-name">VW Jetta Highline</span>
+                <div class="vehicle-price-block">
+                  <span class="vehicle-price-label">PRECIO BASE</span>
+                  <span class="vehicle-price-value">$ 28,900</span>
+                </div>
+              </div>
+              <div class="vehicle-card-variant">1.4 TSI Automático</div>
+              <span class="status-badge badge-available">● Disponible</span>
+              <div class="vehicle-card-divider" style="margin-top:12px"></div>
+              <div class="vehicle-card-meta">
+                <div>
+                  <div class="meta-item-label">AÑO</div>
+                  <div class="meta-item-value">2023</div>
+                </div>
+                <div>
+                  <div class="meta-item-label">COMBUSTIBLE</div>
+                  <div class="meta-item-value">Gasolina</div>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-card-footer">
+              <button class="btn-card-secondary">Ver Detalles</button>
+              <button class="btn-card-primary">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="vehicle-card">
+            <div class="vehicle-card-img-placeholder">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-top">
+                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
+                <div class="vehicle-price-block">
+                  <span class="vehicle-price-label">PRECIO BASE</span>
+                  <span class="vehicle-price-value">$ 35,200</span>
+                </div>
+              </div>
+              <div class="vehicle-card-variant">2.5 GDi AWD</div>
+              <span class="status-badge badge-reserved">● Reservado</span>
+              <div class="vehicle-card-divider" style="margin-top:12px"></div>
+              <div class="vehicle-card-meta">
+                <div>
+                  <div class="meta-item-label">AÑO</div>
+                  <div class="meta-item-value">2024</div>
+                </div>
+                <div>
+                  <div class="meta-item-label">COMBUSTIBLE</div>
+                  <div class="meta-item-value">Híbrido</div>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-card-footer">
+              <button class="btn-card-secondary">Ver Detalles</button>
+              <button class="btn-card-primary">Seleccionar</button>
+            </div>
+          </div>
+
+ <!-- Card 3 -->
+          <div class="vehicle-card">
+            <div class="vehicle-card-img-placeholder">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-top">
+                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
+                <div class="vehicle-price-block">
+                  <span class="vehicle-price-label">PRECIO BASE</span>
+                  <span class="vehicle-price-value">$ 35,200</span>
+                </div>
+              </div>
+              <div class="vehicle-card-variant">2.5 GDi AWD</div>
+              <span class="status-badge badge-reserved">● Reservado</span>
+              <div class="vehicle-card-divider" style="margin-top:12px"></div>
+              <div class="vehicle-card-meta">
+                <div>
+                  <div class="meta-item-label">AÑO</div>
+                  <div class="meta-item-value">2024</div>
+                </div>
+                <div>
+                  <div class="meta-item-label">COMBUSTIBLE</div>
+                  <div class="meta-item-value">Híbrido</div>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-card-footer">
+              <button class="btn-card-secondary">Ver Detalles</button>
+              <button class="btn-card-primary">Seleccionar</button>
+            </div>
+          </div>
+           <!-- Card 3 -->
+          <div class="vehicle-card">
+            <div class="vehicle-card-img-placeholder">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div class="vehicle-card-body">
+              <div class="vehicle-card-top">
+                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
+                <div class="vehicle-price-block">
+                  <span class="vehicle-price-label">PRECIO BASE</span>
+                  <span class="vehicle-price-value">$ 35,200</span>
+                </div>
+              </div>
+              <div class="vehicle-card-variant">2.5 GDi AWD</div>
+              <span class="status-badge badge-reserved">● Reservado</span>
+              <div class="vehicle-card-divider" style="margin-top:12px"></div>
+              <div class="vehicle-card-meta">
+                <div>
+                  <div class="meta-item-label">AÑO</div>
+                  <div class="meta-item-value">2024</div>
+                </div>
+                <div>
+                  <div class="meta-item-label">COMBUSTIBLE</div>
+                  <div class="meta-item-value">Híbrido</div>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-card-footer">
+              <button class="btn-card-secondary">Ver Detalles</button>
+              <button class="btn-card-primary">Seleccionar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+</body>

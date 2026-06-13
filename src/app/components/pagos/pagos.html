@@ -1,0 +1,310 @@
+
+<body>
+
+<div class="dashboard-container">
+
+  <!-- TOP NAVBAR -->
+  <header class="top-navbar">
+    <div class="nav-brand">QCS FINANCE</div>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar registros..." aria-label="Buscar">
+      </div>
+      <div class="user-profile">
+        <span class="avatar-initials">AV</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar-aside">
+      <div class="sidebar-top-branding">
+        <div class="sidebar-logo-square">QCS</div>
+        <div class="sidebar-text-branding">
+          <span class="sidebar-brand-name">QCS FINANCE</span>
+          <span class="sidebar-brand-division">GESTIÓN DE CRÉDITO VEHICULAR</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu-links">
+        <a class="menu-link-item">
+          <span class="menu-icon">🧮</span>
+          <span>Simulador de Crédito</span>
+        </a>
+        <a class="menu-link-item active">
+          <span class="menu-icon">📋</span>
+          <span>Cronograma de Pagos</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom-actions">
+        <a class="menu-link-item logout-action">
+          <span class="menu-icon">↩</span>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-workspace-scroller">
+      <div class="workspace-centered-restrictor">
+
+        <!-- VIEW HEADER -->
+        <div class="workspace-view-header">
+          <div class="header-titles">
+            <h1 class="view-title">Cronograma de Pagos</h1>
+            <div class="view-meta">
+              <span class="view-meta-chip">📅 Método Francés Vencido Ordinario</span>
+              <span class="meta-dot">•</span>
+              <span class="view-meta-chip">Solicitud #CRD-2023-8842</span>
+            </div>
+          </div>
+          <div class="header-right-actions">
+            <button class="btn-outlined">⬇ Descargar PDF/Excel</button>
+            <button class="btn-blue">✏ Ajustar Términos</button>
+          </div>
+        </div>
+
+        <!-- KPI METRICS -->
+        <div class="kpi-metrics-row">
+
+          <div class="kpi-card">
+            <span class="kpi-corner-icon">📊</span>
+            <div class="kpi-card-label">VAN (NPV)</div>
+            <div class="kpi-card-value">S/ 48,250.00</div>
+            <div class="kpi-card-sublabel">Tasa de Descuento: 12.5%</div>
+            <span class="kpi-trend-badge neutral">↗ Positivo</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-corner-icon">📈</span>
+            <div class="kpi-card-label">TIR (IRR)</div>
+            <div class="kpi-card-value accent-blue">16.42%</div>
+            <div class="kpi-card-sublabel">Tasa Efectiva Anual (TEA)</div>
+            <span class="kpi-trend-badge up">↑ Por encima del mercado</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-corner-icon">💰</span>
+            <div class="kpi-card-label">Total Intereses</div>
+            <div class="kpi-card-value">S/ 12,480.50</div>
+            <div class="kpi-card-sublabel">Durante 36 Meses</div>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-corner-icon">✅</span>
+            <div class="kpi-card-label">Estado del Cronograma</div>
+            <div class="kpi-card-value accent-green" style="font-size:18px; margin-top:4px;">Aprobado</div>
+            <div class="kpi-card-sublabel">Generado el 15-10-2023</div>
+            <span class="kpi-trend-badge approved">● Activo</span>
+          </div>
+
+        </div>
+
+        <!-- SCHEDULE CARD -->
+        <div class="schedule-card">
+
+          <!-- Card Header -->
+          <div class="schedule-card-header">
+            <div class="schedule-card-title-block">
+              <span class="schedule-title-icon">📋</span>
+              <span class="schedule-card-title">Libro de Plan de Pagos</span>
+            </div>
+            <div class="schedule-header-right">
+              <span class="schedule-currency-badge">Moneda: PEN (S/.)</span>
+            </div>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <button class="filter-chip active">Todas las cuotas</button>
+            <button class="filter-chip">Periodo de Gracia</button>
+            <button class="filter-chip">Cuotas Regulares</button>
+            <div class="filter-spacer"></div>
+            <div class="filter-search">
+              <span class="filter-search-icon">🔍</span>
+              <input type="text" placeholder="Buscar cuota o fecha...">
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-wrapper">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Fecha</th>
+                  <th>Cuota</th>
+                  <th>Interés</th>
+                  <th>Amortización</th>
+                  <th>Tipo de Gracia</th>
+                  <th>Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 0 – desembolso -->
+                <tr class="row-desembolso">
+                  <td class="cell-n">0</td>
+                  <td class="cell-date">2023-10-15</td>
+                  <td class="cell-empty">—</td>
+                  <td class="cell-empty">—</td>
+                  <td class="cell-empty">—</td>
+                  <td></td>
+                  <td class="cell-saldo">45,000.00</td>
+                </tr>
+                <!-- Row 1 – grace partial -->
+                <tr class="row-grace-active">
+                  <td class="cell-n">1</td>
+                  <td class="cell-date">2023-11-15</td>
+                  <td class="cell-cuota">468.75</td>
+                  <td class="cell-interes">468.75</td>
+                  <td>0.00</td>
+                  <td><span class="grace-badge grace-parcial">Parcial</span></td>
+                  <td class="cell-saldo">45,000.00</td>
+                </tr>
+                <!-- Row 2 – grace partial -->
+                <tr class="row-grace-active">
+                  <td class="cell-n">2</td>
+                  <td class="cell-date">2023-12-15</td>
+                  <td class="cell-cuota">468.75</td>
+                  <td class="cell-interes">468.75</td>
+                  <td>0.00</td>
+                  <td><span class="grace-badge grace-parcial">Parcial</span></td>
+                  <td class="cell-saldo">45,000.00</td>
+                </tr>
+                <!-- Rows 3-8 regular -->
+                <tr>
+                  <td class="cell-n">3</td>
+                  <td class="cell-date">2024-01-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">468.75</td>
+                  <td class="cell-amort">1,127.93</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">43,872.07</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">4</td>
+                  <td class="cell-date">2024-02-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">457.00</td>
+                  <td class="cell-amort">1,139.68</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">42,732.39</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">5</td>
+                  <td class="cell-date">2024-03-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">445.13</td>
+                  <td class="cell-amort">1,151.55</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">41,580.84</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">6</td>
+                  <td class="cell-date">2024-04-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">433.13</td>
+                  <td class="cell-amort">1,163.55</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">40,417.29</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">7</td>
+                  <td class="cell-date">2024-05-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">421.01</td>
+                  <td class="cell-amort">1,175.67</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">39,241.62</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">8</td>
+                  <td class="cell-date">2024-06-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">408.77</td>
+                  <td class="cell-amort">1,187.91</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">38,053.71</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">9</td>
+                  <td class="cell-date">2024-07-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">396.40</td>
+                  <td class="cell-amort">1,200.28</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">36,853.43</td>
+                </tr>
+                <tr>
+                  <td class="cell-n">10</td>
+                  <td class="cell-date">2024-08-15</td>
+                  <td class="cell-cuota">1,596.68</td>
+                  <td class="cell-interes">383.89</td>
+                  <td class="cell-amort">1,212.79</td>
+                  <td><span class="grace-badge grace-none">Ninguno</span></td>
+                  <td class="cell-saldo">35,640.64</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2"><span class="tfoot-total-label">TOTALES</span></td>
+                  <td><span class="tfoot-total-value-main">57,480.50</span></td>
+                  <td><span class="tfoot-total-value-interest">12,480.50</span></td>
+                  <td><span class="tfoot-total-value-main">45,000.00</span></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Bottom Summary Strip -->
+          <div class="bottom-summary-strip">
+            <div class="summary-strip-cell">
+              <span class="strip-label">Capital Financiado</span>
+              <span class="strip-value">S/ 45,000.00</span>
+            </div>
+            <div class="summary-strip-cell">
+              <span class="strip-label">Total Interés Acumulado</span>
+              <span class="strip-value blue">S/ 12,480.50</span>
+            </div>
+            <div class="summary-strip-cell">
+              <span class="strip-label">Desembolso Total</span>
+              <span class="strip-value">S/ 57,480.50</span>
+            </div>
+            <div class="summary-strip-cell">
+              <span class="strip-label">T.E.A Aplicada</span>
+              <span class="strip-value blue">14.50%</span>
+            </div>
+            <div class="summary-strip-cell">
+              <span class="strip-label">Cuotas con Periodo de Gracia</span>
+              <span class="strip-value">2 de 36</span>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-bar">
+            <span class="pagination-info">Mostrando 1–10 de 36 cuotas</span>
+            <div class="pagination-controls">
+              <button class="page-btn" disabled>‹</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <button class="page-btn">4</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+
+        </div><!-- /schedule-card -->
+
+      </div><!-- /workspace-centered-restrictor -->
+    </main>
+
+  </div><!-- /dashboard-layout -->
+</div><!-- /dashboard-container -->
+
+</body>

@@ -1,0 +1,116 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#F5F6F8}
+
+.dashboard-container{display:flex;flex-direction:column;height:100vh;width:100vw;background:#F5F6F8;overflow:hidden}
+
+/* NAVBAR */
+.top-navbar{display:flex;justify-content:space-between;align-items:center;height:65px;background:#FFFFFF;padding:0 24px;border-bottom:1px solid rgba(198,198,205,.5);flex-shrink:0}
+.nav-brand{font-weight:700;font-size:18px;color:#131B2E;letter-spacing:.5px}
+.nav-actions{display:flex;align-items:center;gap:20px}
+.search-box{position:relative;display:flex;align-items:center}
+.search-icon{position:absolute;left:14px;color:#76777D;font-size:14px}
+.search-box input{background:#F0F2F5;border:none;border-radius:20px;padding:10px 16px 10px 40px;font-size:13px;color:#191C1E;width:240px;outline:none;font-family:inherit}
+.user-profile{width:38px;height:38px;border-radius:50%;background:#131B2E;display:flex;align-items:center;justify-content:center}
+.avatar-initials{color:#fff;font-size:13px;font-weight:700}
+
+/* LAYOUT */
+.dashboard-layout{display:flex;flex-direction:row;flex:1;width:100%;height:calc(100vh - 65px);overflow:hidden}
+
+/* SIDEBAR */
+.sidebar-aside{width:220px;background:#FFFFFF;border-right:1px solid rgba(198,198,205,.5);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;height:100%}
+.sidebar-top-branding{padding:0 20px 24px 20px;border-bottom:1px solid rgba(198,198,205,.3)}
+.sidebar-brand-name{font-weight:700;font-size:14px;color:#191C1E;display:block}
+.sidebar-brand-division{font-size:9px;font-weight:600;color:#76777D;letter-spacing:.3px;display:block;margin-top:2px}
+.sidebar-menu-links{padding:20px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.menu-link-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;color:#45464D;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .2s ease}
+.menu-link-item:hover{background:#F8F9FA;color:#191C1E}
+.menu-link-item.active{background:rgba(0,81,213,.08);color:#0051D5;font-weight:600;border-left:3px solid #0051D5;border-radius:0 6px 6px 0;padding-left:9px}
+.menu-icon{font-size:15px;flex-shrink:0}
+.sidebar-section-label{font-size:10px;font-weight:700;color:#76777D;letter-spacing:.5px;padding:8px 12px 4px 12px;text-transform:uppercase}
+.sidebar-bottom-actions{padding:16px 12px;border-top:1px solid rgba(198,198,205,.3);display:flex;flex-direction:column;gap:4px}
+.logout-action{color:#BA1A1A!important}
+
+/* MAIN */
+.main-workspace-scroller{flex:1;padding:32px 36px;overflow-y:auto;height:100%}
+.workspace-centered-restrictor{max-width:960px;margin:0 auto;width:100%}
+
+/* VIEW HEADER */
+.workspace-view-header{margin-bottom:28px}
+.view-title{font-size:26px;font-weight:700;color:#191C1E}
+.view-subtitle{font-size:14px;color:#76777D;margin-top:6px}
+
+/* FORM SECTIONS (same card style as simulador) */
+.form-sections{display:flex;flex-direction:column;gap:20px}
+
+.form-section-card{
+  background:#FFFFFF;
+  border:1px solid rgba(198,198,205,.5);
+  border-radius:6px;
+  padding:24px;
+}
+
+.section-card-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-bottom:16px;
+  border-bottom:1px solid #EAECEF;
+  margin-bottom:20px;
+}
+.section-header-icon{
+  width:32px;height:32px;
+  border-radius:4px;
+  background:rgba(0,81,213,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+}
+.section-header-title{font-size:16px;font-weight:600;color:#191C1E}
+
+/* GRID LAYOUTS — same patterns as simulador */
+.fields-row{display:grid;gap:20px;width:100%}
+.fields-row.col-2{grid-template-columns:1fr 1fr}
+.fields-row.col-3{grid-template-columns:1fr 1.4fr 1fr}
+.fields-row.col-1{grid-template-columns:1fr}
+@media(max-width:600px){
+  .fields-row.col-2,.fields-row.col-3{grid-template-columns:1fr}
+}
+
+.input-cell{display:flex;flex-direction:column;gap:7px}
+.input-label{font-size:11px;font-weight:700;color:#45464D;letter-spacing:.5px}
+
+/* INPUTS — styled like material outline inputs */
+.form-input,.form-select,.form-textarea{
+  width:100%;height:48px;
+  border:1px solid #C6C6CD;
+  border-radius:4px;
+  background:#FFFFFF;
+  padding:0 14px;
+  font-size:14px;font-weight:500;
+  color:#191C1E;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .2s;
+  appearance:none;
+}
+.form-input:focus,.form-select:focus{border-color:#0051D5}
+.form-input::placeholder{color:#C6C6CD;font-weight:400}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2376777D' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-select option{color:#191C1E}
+
+/* input with prefix icon */
+.input-with-icon{position:relative}
+.input-with-icon .form-input{padding-left:38px}
+.input-prefix-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;color:#76777D;pointer-events:none}
+
+/* Phone input with prefix */
+.phone-input-wrapper{display:flex;gap:0}
+.phone-country-prefix{height:48px;padding:0 12px;border:1px solid #C6C6CD;border-right:none;border-radius:4px 0 0 4px;background:#F0F2F5;font-size:13px;font-weight:600;color:#191C1E;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
+.phone-input-wrapper .form-input{border-radius:0 4px 4px 0}
+
+/* FOOTER ACTIONS */
+.form-footer{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding-top:4px}
+.btn-cancel{height:44px;padding:0 22px;background:#FFFFFF;border:1px solid #C6C6CD;border-radius:4px;font-size:14px;font-weight:600;color:#191C1E;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-cancel:hover{background:#F8F9FA}
+.btn-save{height:44px;padding:0 24px;background:#191C1E;border:none;border-radius:4px;font-size:14px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s}
+.btn-save:hover{opacity:.88}
+.btn-save-icon{font-size:14px}

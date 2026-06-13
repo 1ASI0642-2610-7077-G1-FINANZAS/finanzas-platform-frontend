@@ -1,0 +1,160 @@
+
+<body>
+<div class="dashboard-container">
+
+  <header class="top-navbar">
+    <div class="nav-brand">QCS FINANCE</div>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar...">
+      </div>
+      <div class="user-profile"><span class="avatar-initials">AV</span></div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar-aside">
+      <div class="sidebar-top-branding">
+        <span class="sidebar-brand-name">QCS FINANCE</span>
+        <span class="sidebar-brand-division">Institutional Credit Systems</span>
+      </div>
+
+      <nav class="sidebar-menu-links">
+        <a class="menu-link-item">
+          <span class="menu-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+        <a class="menu-link-item">
+          <span class="menu-icon">🚗</span>
+          <span>Vehicle Valuation</span>
+        </a>
+        <a class="menu-link-item">
+          <span class="menu-icon">🧮</span>
+          <span>Credit Simulator</span>
+        </a>
+        <a class="menu-link-item">
+          <span class="menu-icon">📋</span>
+          <span>Amortization Logs</span>
+        </a>
+
+        <div class="sidebar-section-label" style="margin-top:8px">ADMINISTRACIÓN</div>
+        <a class="menu-link-item active">
+          <span class="menu-icon">👤</span>
+          <span>Registro de Cliente</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom-actions">
+        <a class="menu-link-item" style="color:#76777D;font-size:12px">⚙ Support</a>
+        <a class="menu-link-item logout-action" style="font-size:12px">↩ Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="main-workspace-scroller">
+      <div class="workspace-centered-restrictor">
+
+        <div class="workspace-view-header">
+          <h1 class="view-title">Registro de Cliente</h1>
+          <p class="view-subtitle">Ingrese los datos institucionales del solicitante para iniciar el perfil crediticio.</p>
+        </div>
+
+        <div class="form-sections">
+
+          <!-- SECCIÓN 1: Identidad del Solicitante -->
+          <div class="form-section-card">
+            <div class="section-card-header">
+              <div class="section-header-icon">🪪</div>
+              <span class="section-header-title">Identidad del Solicitante</span>
+            </div>
+
+            <div class="fields-row col-2">
+              <div class="input-cell">
+                <label class="input-label">NOMBRES</label>
+                <input class="form-input" type="text" placeholder="Ej. Carlos Alberto">
+              </div>
+              <div class="input-cell">
+                <label class="input-label">APELLIDOS</label>
+                <input class="form-input" type="text" placeholder="Ej. Mendoza Ruiz">
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN 2: Documentación Legal -->
+          <div class="form-section-card">
+            <div class="section-card-header">
+              <div class="section-header-icon">📄</div>
+              <span class="section-header-title">Documentación Legal</span>
+            </div>
+
+            <div class="fields-row col-2">
+              <div class="input-cell">
+                <label class="input-label">TIPO DE DOCUMENTO</label>
+                <select class="form-select">
+                  <option value="" disabled selected>Seleccione...</option>
+                  <option>DNI — Documento Nacional de Identidad</option>
+                  <option>CE — Carné de Extranjería</option>
+                  <option>RUC — Registro Único de Contribuyentes</option>
+                  <option>Pasaporte</option>
+                </select>
+              </div>
+              <div class="input-cell">
+                <label class="input-label">NÚMERO DE DOCUMENTO</label>
+                <input class="form-input" type="text" placeholder="Ingrese el número exacto">
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN 3: Información de Contacto -->
+          <div class="form-section-card">
+            <div class="section-card-header">
+              <div class="section-header-icon">📬</div>
+              <span class="section-header-title">Información de Contacto</span>
+            </div>
+
+            <div class="fields-row col-2" style="margin-bottom:20px">
+              <div class="input-cell">
+                <label class="input-label">CORREO ELECTRÓNICO</label>
+                <div class="input-with-icon">
+                  <span class="input-prefix-icon">✉</span>
+                  <input class="form-input" type="email" placeholder="usuario@empresa.com">
+                </div>
+              </div>
+              <div class="input-cell">
+                <label class="input-label">TELÉFONO MÓVIL / FIJO</label>
+                <div class="phone-input-wrapper">
+                  <div class="phone-country-prefix">📞 +51</div>
+                  <input class="form-input" type="tel" placeholder="999 888 777">
+                </div>
+              </div>
+            </div>
+
+            <div class="fields-row col-1">
+              <div class="input-cell">
+                <label class="input-label">DIRECCIÓN FÍSICA (RESIDENCIA O FISCAL)</label>
+                <div class="input-with-icon">
+                  <span class="input-prefix-icon">📍</span>
+                  <input class="form-input" type="text" placeholder="Av. Principal 123, Distrito, Provincia">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="form-footer">
+            <button class="btn-cancel">Cancelar</button>
+            <button class="btn-save">
+              <span class="btn-save-icon">💾</span>
+              Guardar Cliente
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+</body>

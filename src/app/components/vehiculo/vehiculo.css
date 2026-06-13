@@ -1,0 +1,89 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#F5F6F8}
+
+.dashboard-container{display:flex;flex-direction:column;height:100vh;width:100vw;background:#F5F6F8;overflow:hidden}
+
+/* NAVBAR */
+.top-navbar{display:flex;justify-content:space-between;align-items:center;height:65px;background:#FFFFFF;padding:0 24px;border-bottom:1px solid rgba(198,198,205,.5);flex-shrink:0}
+.nav-brand{font-weight:700;font-size:18px;color:#131B2E;letter-spacing:.5px}
+.nav-actions{display:flex;align-items:center;gap:20px}
+.search-box{position:relative;display:flex;align-items:center}
+.search-icon{position:absolute;left:14px;color:#76777D;font-size:14px}
+.search-box input{background:#F0F2F5;border:none;border-radius:20px;padding:10px 16px 10px 40px;font-size:13px;color:#191C1E;width:260px;outline:none;font-family:inherit}
+.user-profile{width:38px;height:38px;border-radius:50%;overflow:hidden;background:#131B2E;display:flex;align-items:center;justify-content:center}
+.avatar-initials{color:#fff;font-size:13px;font-weight:700}
+
+/* LAYOUT */
+.dashboard-layout{display:flex;flex-direction:row;flex:1;width:100%;height:calc(100vh - 65px);overflow:hidden}
+
+/* SIDEBAR */
+.sidebar-aside{width:220px;background:#FFFFFF;border-right:1px solid rgba(198,198,205,.5);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;height:100%}
+.sidebar-top-branding{padding:0 20px 24px 20px;border-bottom:1px solid rgba(198,198,205,.3)}
+.sidebar-brand-name{font-weight:700;font-size:14px;color:#191C1E;display:block}
+.sidebar-brand-division{font-size:9px;font-weight:600;color:#76777D;letter-spacing:.3px;display:block;margin-top:2px}
+.sidebar-menu-links{padding:20px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.menu-link-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;color:#45464D;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .2s ease}
+.menu-link-item:hover{background:#F8F9FA;color:#191C1E}
+.menu-link-item.active{background:rgba(0,81,213,.08);color:#0051D5;font-weight:600;border-left:3px solid #0051D5;border-radius:0 6px 6px 0;padding-left:9px}
+.menu-icon{font-size:16px;flex-shrink:0}
+.sidebar-bottom-actions{padding:16px 12px;border-top:1px solid rgba(198,198,205,.3);display:flex;flex-direction:column;gap:4px}
+.sidebar-section-label{font-size:10px;font-weight:700;color:#76777D;letter-spacing:.5px;padding:0 12px;margin-bottom:4px;text-transform:uppercase}
+.logout-action{color:#BA1A1A!important}
+
+/* MAIN */
+.main-workspace-scroller{flex:1;padding:32px 36px;overflow-y:auto;height:100%}
+.workspace-centered-restrictor{max-width:1200px;margin:0 auto;width:100%}
+
+/* VIEW HEADER */
+.workspace-view-header{margin-bottom:24px}
+.view-title{font-size:26px;font-weight:700;color:#191C1E}
+.view-subtitle{font-size:14px;color:#76777D;margin-top:6px}
+
+/* FILTER BAR */
+.filter-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.filter-toolbar-label{font-size:11px;font-weight:700;color:#76777D;letter-spacing:.5px;margin-right:4px}
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:4px;border:1px solid #C6C6CD;background:#FFFFFF;font-size:12px;font-weight:600;color:#45464D;cursor:pointer;transition:all .15s;font-family:inherit}
+.filter-chip:hover{background:#F0F2F5}
+.filter-chip.active{background:rgba(0,81,213,.08);border-color:rgba(0,81,213,.3);color:#0051D5}
+.filter-spacer{flex:1}
+.btn-add{display:inline-flex;align-items:center;gap:8px;background:#191C1E;color:#FFFFFF;border:none;border-radius:4px;padding:0 18px;height:38px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-add:hover{opacity:.88}
+
+/* VEHICLE GRID */
+.vehicle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+
+.vehicle-card{background:#FFFFFF;border:1px solid rgba(198,198,205,.5);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.vehicle-card:hover{border-color:rgba(0,81,213,.25);box-shadow:0 2px 12px rgba(0,81,213,.07)}
+
+.vehicle-card-image{width:100%;height:180px;object-fit:cover;display:block;background:#F0F2F5}
+.vehicle-card-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,#F0F2F5 0%,#E8EAED 100%);display:flex;align-items:center;justify-content:center;font-size:48px}
+
+.vehicle-card-body{padding:16px}
+.vehicle-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.vehicle-card-name{font-size:15px;font-weight:700;color:#191C1E}
+.vehicle-card-price-block{text-align:right;flex-shrink:0;margin-left:12px}
+.vehicle-price-label{font-size:9px;font-weight:700;color:#76777D;letter-spacing:.3px;display:block}
+.vehicle-price-value{font-size:14px;font-weight:800;color:#191C1E}
+.vehicle-card-variant{font-size:12px;color:#76777D;margin-bottom:14px}
+.vehicle-card-divider{height:1px;background:#EAECEF;margin-bottom:12px}
+.vehicle-card-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.meta-item-label{font-size:9px;font-weight:700;color:#76777D;letter-spacing:.4px;margin-bottom:2px}
+.meta-item-value{font-size:12px;font-weight:600;color:#191C1E}
+
+.vehicle-card-footer{padding:12px 16px;border-top:1px solid #EAECEF;display:flex;gap:8px}
+.btn-card-secondary{flex:1;height:34px;background:#FFFFFF;border:1px solid #C6C6CD;border-radius:4px;font-size:12px;font-weight:600;color:#191C1E;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-card-secondary:hover{background:#F8F9FA}
+.btn-card-primary{flex:1;height:34px;background:#191C1E;border:none;border-radius:4px;font-size:12px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-card-primary:hover{opacity:.86}
+
+/* EMPTY SLOT CARD */
+.vehicle-card-empty{background:#FAFBFC;border:1.5px dashed #C6C6CD;border-radius:6px;height:295px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:border-color .2s,background .2s}
+.vehicle-card-empty:hover{border-color:#0051D5;background:rgba(0,81,213,.03)}
+.empty-icon{font-size:28px;opacity:.35}
+.empty-label{font-size:13px;font-weight:600;color:#76777D}
+.empty-sub{font-size:11px;color:#C6C6CD}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.2px}
+.badge-available{background:rgba(0,135,90,.1);color:#00875A}
+.badge-reserved{background:rgba(0,81,213,.08);color:#0051D5}
