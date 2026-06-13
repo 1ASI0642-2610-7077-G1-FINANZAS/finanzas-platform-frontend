@@ -1,0 +1,725 @@
+/* Layout Global Base - Dashboard Arquitectura Unificada */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #F5F6F8;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Header Superior Estático */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65px;
+  background-color: #FFFFFF;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(198, 198, 205, 0.5);
+  box-sizing: border-box;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.top-navbar .nav-brand {
+  font-weight: 700;
+  font-size: 18px;
+  color: #131B2E;
+  letter-spacing: 0.5px;
+}
+
+.top-navbar .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-navbar .search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.top-navbar .search-icon {
+  position: absolute;
+  left: 14px;
+  color: #76777D;
+  font-size: 14px;
+}
+
+.top-navbar .search-box input {
+  background-color: #F0F2F5;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px 10px 40px;
+  font-size: 13px;
+  color: #191C1E;
+  width: 240px;
+  outline: none;
+}
+
+.top-navbar .user-profile {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.top-navbar .avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Split Layout: Nav Lateral + Contenido Variable */
+.dashboard-layout {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 65px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Sidebar Fijo Lateral Permanente */
+.sidebar-aside {
+  width: 260px;
+  background-color: #FFFFFF;
+  border-right: 1px solid rgba(198, 198, 205, 0.5);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+@media (max-width: 1024px) {
+  .sidebar-aside {
+    display: none;
+  }
+}
+
+.sidebar-top-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+  border-bottom: 1px solid rgba(198, 198, 205, 0.3);
+}
+
+.sidebar-logo-square {
+  background-color: #131B2E;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.sidebar-logo-img {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-text-branding {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #191C1E;
+}
+
+.sidebar-brand-division {
+  font-size: 9px;
+  font-weight: 600;
+  color: #76777D;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+.sidebar-menu-links {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.sidebar-menu-links .menu-link-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  color: #45464D;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu-links .menu-link-item .menu-link-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar-menu-links .menu-link-item:hover {
+  background-color: #F8F9FA;
+  color: #191C1E;
+}
+
+.sidebar-menu-links .menu-link-item.active {
+  background-color: rgba(0, 81, 213, 0.08);
+  color: #0051D5;
+  font-weight: 600;
+  border-left: 3px solid #0051D5;
+  border-radius: 0 6px 6px 0;
+  padding-left: 13px;
+}
+
+.sidebar-bottom-actions {
+  padding: 16px;
+  border-top: 1px solid rgba(198, 198, 205, 0.3);
+}
+
+.sidebar-bottom-actions .logout-action {
+  color: #BA1A1A;
+}
+
+/* Área de Trabajo Deslizable con Restricción Máxima (Fix Zoom 100%) */
+.main-workspace-scroller {
+  flex: 1;
+  padding: 32px 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-workspace-scroller {
+    padding: 24px 16px;
+  }
+}
+
+.workspace-centered-restrictor {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cabecera del Contenido Interno */
+.workspace-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.workspace-view-header .view-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #191C1E;
+  margin: 0;
+}
+
+.workspace-view-header .view-subtitle {
+  font-size: 14px;
+  color: #76777D;
+  margin: 6px 0 0 0;
+}
+
+.workspace-view-header .security-lock-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(118, 119, 125, 0.1);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #45464D;
+  white-space: nowrap;
+}
+
+/* Configuración de Proporciones del Grid de Trabajo */
+.simulation-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 1150px) {
+  .simulation-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inputs-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Tarjetas Contenedoras Homogéneas */
+.simulation-step-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(198, 198, 205, 0.5) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  padding: 24px !important;
+  box-sizing: border-box;
+}
+
+.simulation-step-card ::ng-deep .mat-mdc-card-header {
+  padding: 0 0 16px 0 !important;
+  border-bottom: 1px solid #EAECEF !important;
+  margin-bottom: 20px !important;
+  display: block !important;
+}
+
+.step-card-title-layout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.step-card-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.step-card-title-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #191C1E;
+}
+
+.step-card-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Filas y columnas internas */
+.fields-form-row {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fields-form-row.layout-split-50-50 {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 550px) {
+  .fields-form-row.layout-split-50-50 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fields-form-row.layout-split-triple {
+  grid-template-columns: 1fr 1.2fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .fields-form-row.layout-split-triple {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input-cell-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.input-cell-wrapper .input-cell-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #45464D;
+  letter-spacing: 0.5px;
+}
+
+/* Bloque de Moneda Fijo */
+.static-currency-box {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.currency-label-inner {
+  width: 100%;
+  height: 100%;
+  background-color: #F0F2F5;
+  border: 1px solid #C6C6CD;
+  border-radius: 4px;
+  color: #191C1E;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Inputs de Angular Material Aislados (Estilo Formulario Bancario) */
+.material-custom-input {
+  width: 100%;
+}
+
+.material-custom-input ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #FFFFFF !important;
+  border-radius: 4px !important;
+  height: 48px !important;
+  padding: 0 14px !important;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.material-custom-input ::ng-deep .mdc-notched-outline__leading { border-color: #C6C6CD !important; border-width: 1px !important; }
+.material-custom-input ::ng-deep .mdc-notched-outline__notch { border-color: #C6C6CD !important; border-width: 1px !important; }
+.material-custom-input ::ng-deep .mdc-notched-outline__trailing { border-color: #C6C6CD !important; border-width: 1px !important; }
+
+.material-custom-input ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.material-custom-input ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.material-custom-input ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #0051D5 !important;
+}
+
+.material-custom-input ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  min-height: auto !important;
+  display: flex;
+  align-items: center;
+}
+
+.material-custom-input ::ng-deep .mat-mdc-form-field-input-control {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #191C1E !important;
+}
+
+.material-custom-input ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.material-custom-input .currency-symbol-prefix {
+  font-size: 14px;
+  font-weight: 500;
+  color: #191C1E;
+}
+
+.material-custom-input .input-symbol-suffix {
+  font-size: 14px;
+  font-weight: 500;
+  color: #76777D;
+  padding-left: 6px;
+}
+
+.mat-field-disabled-state ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #F8F9FA !important;
+}
+
+/* Alineación del Contenedor del Slider */
+.slider-margin-box {
+  margin-top: 16px;
+}
+
+.slider-labels-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.slider-dynamic-percentage {
+  background-color: rgba(0, 81, 213, 0.06);
+  color: #0051D5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.slider-alignment-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.material-custom-slider {
+  flex: 1;
+  --mdc-slider-active-track-color: #0051D5;
+  --mdc-slider-handle-color: #0051D5;
+}
+
+.slider-fixed-indicator {
+  background-color: #F0F2F5;
+  border: 1px solid #C6C6CD;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #191C1E;
+}
+
+/* Grupo Radio Buttons */
+.radio-group-spacing {
+  margin-bottom: 12px;
+}
+
+.custom-radio-flex-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.custom-radio-flex-row mat-radio-button {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Sidebar de Resumen de Proyección (Panel Derecho Fijo) */
+.projection-summary-panel {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sticky-financial-card {
+  position: relative !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(198, 198, 205, 0.6) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  padding: 32px 24px !important;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.financial-top-teal-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #00B69B;
+}
+
+.financial-card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 0 20px 0 !important;
+  margin-bottom: 24px !important;
+  border-bottom: 1px solid #EAECEF !important;
+  flex-direction: row !important;
+}
+
+.financial-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #191C1E;
+}
+
+.active-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #00B69B;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(0, 182, 155, 0.2);
+}
+
+.display-main-quota-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F9FB;
+  border-radius: 6px;
+  padding: 20px 16px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.display-main-quota-box .quota-box-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #45464D;
+  letter-spacing: 0.5px;
+}
+
+.display-main-quota-box .quota-numeric-flex {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  color: #191C1E;
+}
+
+.display-main-quota-box .quota-currency {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.display-main-quota-box .quota-amount-integer {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.display-main-quota-box .quota-pill-type {
+  background-color: rgba(118, 119, 125, 0.12);
+  color: #191C1E;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.breakdown-metrics-table {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.breakdown-metrics-table .breakdown-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.breakdown-metrics-table .breakdown-label {
+  color: #76777D;
+}
+
+.breakdown-metrics-table .breakdown-value {
+  color: #191C1E;
+  font-weight: 600;
+}
+
+.breakdown-metrics-table .breakdown-horizontal-line {
+  height: 1px;
+  background-color: #EAECEF;
+  margin: 4px 0;
+}
+
+.breakdown-metrics-table .totals-highlight-row .breakdown-label {
+  color: #191C1E;
+  font-weight: 700;
+}
+
+.breakdown-metrics-table .totals-highlight-row .breakdown-value {
+  color: #191C1E;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+/* Callout "T.E.A APLICADA" */
+.applied-rate-callout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 81, 213, 0.04);
+  border: 1px dashed rgba(0, 81, 213, 0.3);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.applied-rate-callout .rate-callout-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0051D5;
+}
+
+.applied-rate-callout .rate-callout-percentage {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0051D5;
+}
+
+/* Botones de Envío Centrados y Arreglados */
+.financial-card-actions-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding-top: 16px;
+}
+
+.financial-card-actions-area button {
+  width: 100%;
+  height: 46px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.financial-card-actions-area .action-btn-dark-flat {
+  background-color: #191C1E !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+.financial-card-actions-area .action-btn-dark-flat .action-btn-img-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.financial-card-actions-area .action-btn-light-stroked {
+  background-color: #FFFFFF !important;
+  color: #191C1E !important;
+  border: 1px solid #C6C6CD !important;
+}
+
+.financial-card-actions-area button:disabled {
+  background-color: #EAECEF !important;
+  color: #C6C6CD !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+::ng-deep .success-snackbar {
+  background-color: #191C1E !important;
+  color: #FFFFFF !important;
+  font-family: 'Inter', sans-serif;
+  border-radius: 4px;
+}
+
+::ng-deep .success-snackbar .mat-mdc-snack-bar-action {
+  color: #0051D5 !important;
+}

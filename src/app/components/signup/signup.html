@@ -1,0 +1,144 @@
+<div class="signup-page">
+  <div class="header-container">
+    <div class="logo-container">
+      <img
+        src="assets/ic_logo.svg"
+        alt="QCS Finance Logo"
+        class="logo-icon"
+      />
+    </div>
+    <h1 class="brand-title">QCS FINANCE</h1>
+    <p class="brand-subtitle">Registro de Operador del Sistema</p>
+  </div>
+
+  <mat-card class="signup-card" appearance="outlined">
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+
+        <div class="form-field-wrapper">
+          <label class="form-label" for="fullName">Nombre Completo</label>
+          <mat-form-field appearance="outline" class="full-width" subscriptSizing="fixed">
+            <input
+              matInput
+              id="fullName"
+              formControlName="fullName"
+              placeholder="Ingrese su nombre legal completo"
+              autocomplete="name"
+            />
+            @if (signupForm.controls.fullName.touched && signupForm.controls.fullName.errors?.['required']) {
+              <mat-error>El nombre completo es obligatorio</mat-error>
+            }
+            @if (signupForm.controls.fullName.touched && signupForm.controls.fullName.errors?.['minlength']) {
+              <mat-error>Mínimo 3 caracteres</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-field-wrapper">
+          <label class="form-label" for="email">Correo</label>
+          <mat-form-field appearance="outline" class="full-width" subscriptSizing="fixed">
+            <div matPrefix class="prefix-icon-container">
+              <img src="assets/ic_mail.svg" alt="" class="field-icon" />
+            </div>
+            <input
+              matInput
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="nombre@qcsfinance.com"
+              autocomplete="email"
+            />
+            @if (signupForm.controls.email.touched && signupForm.controls.email.errors?.['required']) {
+              <mat-error>El correo es obligatorio</mat-error>
+            }
+            @if (signupForm.controls.email.touched && signupForm.controls.email.errors?.['email']) {
+              <mat-error>Ingrese un correo electrónico válido</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-field-wrapper">
+          <label class="form-label" for="password">Contraseña</label>
+          <mat-form-field appearance="outline" class="full-width" subscriptSizing="fixed">
+            <div matPrefix class="prefix-icon-container">
+              <img src="assets/ic_lock.svg" alt="Contraseña" class="field-icon" />
+            </div>
+            <input
+              matInput
+              id="password"
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="new-password"
+            />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              class="toggle-password-btn"
+              (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+              [attr.aria-pressed]="!hidePassword"
+            >
+              <span class="material-icons-outlined-fallback">{{ hidePassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+            @if (signupForm.controls.password.touched && signupForm.controls.password.errors?.['required']) {
+              <mat-error>La contraseña es obligatoria</mat-error>
+            }
+            @if (signupForm.controls.password.touched && signupForm.controls.password.errors?.['minlength']) {
+              <mat-error>Mínimo 8 caracteres</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-field-wrapper">
+          <label class="form-label" for="confirmPassword">Confirmar Contraseña</label>
+          <mat-form-field appearance="outline" class="full-width" subscriptSizing="fixed">
+            <div matPrefix class="prefix-icon-container">
+              <img src="assets/ic_relock.svg" alt="Confirmar Contraseña" class="field-icon" />
+            </div>
+            <input
+              matInput
+              id="confirmPassword"
+              [type]="hideConfirmPassword ? 'password' : 'text'"
+              formControlName="confirmPassword"
+              placeholder="••••••••"
+              autocomplete="new-password"
+            />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              class="toggle-password-btn"
+              (click)="hideConfirmPassword = !hideConfirmPassword"
+              [attr.aria-label]="hideConfirmPassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+              [attr.aria-pressed]="!hideConfirmPassword"
+            >
+              <span class="material-icons-outlined-fallback">{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+            @if (signupForm.controls.confirmPassword.touched && signupForm.controls.confirmPassword.errors?.['required']) {
+              <mat-error>La confirmación es obligatoria</mat-error>
+            }
+            @if (signupForm.controls.confirmPassword.touched && signupForm.hasError('passwordMismatch')) {
+              <mat-error>Las contraseñas no coinciden</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <button
+          mat-flat-button
+          type="submit"
+          class="submit-button"
+          [disabled]="signupForm.invalid"
+        >
+          Registrar Usuario
+        </button>
+
+        <div class="signup-footer">
+          <a routerLink="/login" class="login-link">Volver al Inicio de Sesión</a>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
