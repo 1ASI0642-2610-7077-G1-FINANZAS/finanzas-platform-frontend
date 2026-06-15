@@ -1,7 +1,6 @@
 
 <body>
 <div class="dashboard-container">
-
   <header class="top-navbar">
     <div class="nav-brand">QCS FINANCE</div>
     <div class="nav-actions">
@@ -61,7 +60,7 @@
         </div>
 
         <div class="form-sections">
-
+          <form [formGroup]="clienteForm">
           <!-- SECCIÓN 1: Identidad del Solicitante -->
           <div class="form-section-card">
             <div class="section-card-header">
@@ -72,11 +71,19 @@
             <div class="fields-row col-2">
               <div class="input-cell">
                 <label class="input-label">NOMBRES</label>
-                <input class="form-input" type="text" placeholder="Ej. Carlos Alberto">
+                <input
+                  class="form-input"
+                  type="text"
+                  formControlName="nombres"
+                  placeholder="Ej. Carlos Alberto">
               </div>
               <div class="input-cell">
                 <label class="input-label">APELLIDOS</label>
-                <input class="form-input" type="text" placeholder="Ej. Mendoza Ruiz">
+                <input
+                  class="form-input"
+                  type="text"
+                  formControlName="apellidos"
+                  placeholder="Ej. Mendoza Ruiz">
               </div>
             </div>
           </div>
@@ -91,17 +98,25 @@
             <div class="fields-row col-2">
               <div class="input-cell">
                 <label class="input-label">TIPO DE DOCUMENTO</label>
-                <select class="form-select">
-                  <option value="" disabled selected>Seleccione...</option>
-                  <option>DNI — Documento Nacional de Identidad</option>
-                  <option>CE — Carné de Extranjería</option>
-                  <option>RUC — Registro Único de Contribuyentes</option>
-                  <option>Pasaporte</option>
+                <select
+                  class="form-select"
+                  formControlName="tipoDocumento">
+                  <option value="DNI">DNI</option>
+                  <option value="CE">
+                    CE
+                  </option>
+                  <option value="RUC">
+                    RUC
+                  </option>
                 </select>
               </div>
               <div class="input-cell">
                 <label class="input-label">NÚMERO DE DOCUMENTO</label>
-                <input class="form-input" type="text" placeholder="Ingrese el número exacto">
+                <input
+                  class="form-input"
+                  type="text"
+                  formControlName="numeroDocumento"
+                  placeholder="Ingrese el número exacto">
               </div>
             </div>
           </div>
@@ -118,14 +133,22 @@
                 <label class="input-label">CORREO ELECTRÓNICO</label>
                 <div class="input-with-icon">
                   <span class="input-prefix-icon">✉</span>
-                  <input class="form-input" type="email" placeholder="usuario@empresa.com">
+                  <input
+                    class="form-input"
+                    type="email"
+                    formControlName="correo"
+                    placeholder="usuario@empresa.com">
                 </div>
               </div>
               <div class="input-cell">
                 <label class="input-label">TELÉFONO MÓVIL / FIJO</label>
                 <div class="phone-input-wrapper">
                   <div class="phone-country-prefix">📞 +51</div>
-                  <input class="form-input" type="tel" placeholder="999 888 777">
+                  <input
+                    class="form-input"
+                    type="tel"
+                    formControlName="telefono"
+                    placeholder="999 888 777">
                 </div>
               </div>
             </div>
@@ -135,7 +158,11 @@
                 <label class="input-label">DIRECCIÓN FÍSICA (RESIDENCIA O FISCAL)</label>
                 <div class="input-with-icon">
                   <span class="input-prefix-icon">📍</span>
-                  <input class="form-input" type="text" placeholder="Av. Principal 123, Distrito, Provincia">
+                  <input
+                    class="form-input"
+                    type="text"
+                    formControlName="direccion"
+                    placeholder="Av. Principal 123, Distrito, Provincia">
                 </div>
               </div>
             </div>
@@ -144,12 +171,15 @@
           <!-- FOOTER -->
           <div class="form-footer">
             <button class="btn-cancel">Cancelar</button>
-            <button class="btn-save">
+            <button
+              type="button"
+              class="btn-save"
+              (click)="guardarCliente()">
               <span class="btn-save-icon">💾</span>
               Guardar Cliente
             </button>
           </div>
-
+          </form>
         </div>
 
       </div>

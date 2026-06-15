@@ -8,6 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {AuthService} from '../../services/auth-service';
+import {RegisterRequest} from '../../model/register-request';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
@@ -39,6 +41,7 @@ export class Signup {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly snackBar = inject(MatSnackBar);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   hidePassword = true;
   hideConfirmPassword = true;
@@ -51,15 +54,47 @@ export class Signup {
   }, { validators: passwordMatchValidator });
 
   onSubmit(): void {
-    if (this.signupForm.valid) {
-      this.snackBar.open('Usuario registrado correctamente', 'Cerrar', {
-        duration: 4000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      });
 
-      this.router.navigate(['/login']);
+    if (this.signupForm.invalid) {
+      return;
     }
+
+    const request: RegisterRequest = {
+      username: this.signupForm.get('email')?.value ?? '',
+      password: this.signupForm.get('password')?.value ?? '',
+      rol: 'OPERADOR'
+    };
+
+    this.authService.register(request)
+      .subscribe({
+        next: () => {
+
+          this.snackBar.open(
+            'Usuario registrado correctamente',
+            'Cerrar',
+            {
+              duration: 4000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['success-snackbar']
+            }
+          );
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+          this.snackBar.open(
+            'Error al registrar usuario',
+            'Cerrar',
+            {
+              duration: 4000
+            }
+          );
+        }
+      });
   }
+
+
 }

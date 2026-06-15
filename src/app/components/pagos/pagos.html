@@ -62,10 +62,6 @@
               <span class="view-meta-chip">Solicitud #CRD-2023-8842</span>
             </div>
           </div>
-          <div class="header-right-actions">
-            <button class="btn-outlined">⬇ Descargar PDF/Excel</button>
-            <button class="btn-blue">✏ Ajustar Términos</button>
-          </div>
         </div>
 
         <!-- KPI METRICS -->
@@ -145,110 +141,56 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Row 0 – desembolso -->
-                <tr class="row-desembolso">
-                  <td class="cell-n">0</td>
-                  <td class="cell-date">2023-10-15</td>
-                  <td class="cell-empty">—</td>
-                  <td class="cell-empty">—</td>
-                  <td class="cell-empty">—</td>
-                  <td></td>
-                  <td class="cell-saldo">45,000.00</td>
-                </tr>
-                <!-- Row 1 – grace partial -->
-                <tr class="row-grace-active">
-                  <td class="cell-n">1</td>
-                  <td class="cell-date">2023-11-15</td>
-                  <td class="cell-cuota">468.75</td>
-                  <td class="cell-interes">468.75</td>
-                  <td>0.00</td>
-                  <td><span class="grace-badge grace-parcial">Parcial</span></td>
-                  <td class="cell-saldo">45,000.00</td>
-                </tr>
-                <!-- Row 2 – grace partial -->
-                <tr class="row-grace-active">
-                  <td class="cell-n">2</td>
-                  <td class="cell-date">2023-12-15</td>
-                  <td class="cell-cuota">468.75</td>
-                  <td class="cell-interes">468.75</td>
-                  <td>0.00</td>
-                  <td><span class="grace-badge grace-parcial">Parcial</span></td>
-                  <td class="cell-saldo">45,000.00</td>
-                </tr>
-                <!-- Rows 3-8 regular -->
-                <tr>
-                  <td class="cell-n">3</td>
-                  <td class="cell-date">2024-01-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">468.75</td>
-                  <td class="cell-amort">1,127.93</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">43,872.07</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">4</td>
-                  <td class="cell-date">2024-02-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">457.00</td>
-                  <td class="cell-amort">1,139.68</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">42,732.39</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">5</td>
-                  <td class="cell-date">2024-03-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">445.13</td>
-                  <td class="cell-amort">1,151.55</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">41,580.84</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">6</td>
-                  <td class="cell-date">2024-04-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">433.13</td>
-                  <td class="cell-amort">1,163.55</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">40,417.29</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">7</td>
-                  <td class="cell-date">2024-05-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">421.01</td>
-                  <td class="cell-amort">1,175.67</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">39,241.62</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">8</td>
-                  <td class="cell-date">2024-06-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">408.77</td>
-                  <td class="cell-amort">1,187.91</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">38,053.71</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">9</td>
-                  <td class="cell-date">2024-07-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">396.40</td>
-                  <td class="cell-amort">1,200.28</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">36,853.43</td>
-                </tr>
-                <tr>
-                  <td class="cell-n">10</td>
-                  <td class="cell-date">2024-08-15</td>
-                  <td class="cell-cuota">1,596.68</td>
-                  <td class="cell-interes">383.89</td>
-                  <td class="cell-amort">1,212.79</td>
-                  <td><span class="grace-badge grace-none">Ninguno</span></td>
-                  <td class="cell-saldo">35,640.64</td>
-                </tr>
-              </tbody>
+
+                @for (
+                  cuota of paginatedCronograma;
+                  track cuota.numeroCuota
+                  ) {
+
+                  <tr>
+
+                    <td class="cell-n">
+                      {{ cuota.numeroCuota }}
+                    </td>
+
+                    <td class="cell-date">
+                      {{ cuota.fechaPago }}
+                    </td>
+
+                    <td class="cell-cuota">
+                      {{ cuota.cuotaTotal | number:'1.2-2' }}
+                    </td>
+
+                    <td class="cell-interes">
+                      {{ cuota.interes | number:'1.2-2' }}
+                    </td>
+
+                    <td class="cell-amort">
+                      {{ cuota.amortizacion | number:'1.2-2' }}
+                    </td>
+
+                    <td>
+
+                    <span class="grace-badge">
+
+                    {{ cuota.tipoPeriodo }}
+
+                    </span>
+
+                      </td>
+
+                      <td class="cell-saldo">
+
+                        {{ cuota.saldoFinal | number:'1.2-2' }}
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
               <tfoot>
                 <tr>
                   <td colspan="2"><span class="tfoot-total-label">TOTALES</span></td>
@@ -288,14 +230,63 @@
 
           <!-- Pagination -->
           <div class="pagination-bar">
-            <span class="pagination-info">Mostrando 1–10 de 36 cuotas</span>
+            <span class="pagination-info">
+
+              Mostrando
+
+              {{ (currentPage - 1) * pageSize + 1 }}
+
+              -
+
+              {{
+                currentPage * pageSize > cronograma.length
+                  ? cronograma.length
+                  : currentPage * pageSize
+              }}
+
+              de
+
+              {{ cronograma.length }}
+
+              cuotas
+
+            </span>
             <div class="pagination-controls">
-              <button class="page-btn" disabled>‹</button>
-              <button class="page-btn active">1</button>
-              <button class="page-btn">2</button>
-              <button class="page-btn">3</button>
-              <button class="page-btn">4</button>
-              <button class="page-btn">›</button>
+
+              <button
+                class="page-btn"
+                (click)="changePage(currentPage - 1)"
+                [disabled]="currentPage === 1">
+
+                ‹
+
+              </button>
+
+              @for (
+                page of [].constructor(totalPages);
+                track $index
+                ) {
+
+                <button
+                  class="page-btn"
+                  [class.active]="currentPage === ($index + 1)"
+                  (click)="changePage($index + 1)">
+
+                  {{ $index + 1 }}
+
+                </button>
+
+              }
+
+              <button
+                class="page-btn"
+                (click)="changePage(currentPage + 1)"
+                [disabled]="currentPage === totalPages">
+
+                ›
+
+              </button>
+
             </div>
           </div>
 

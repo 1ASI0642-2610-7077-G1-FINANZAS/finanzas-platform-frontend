@@ -9,6 +9,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {CreditoService} from '../../services/credito-service';
+import {ResultadoCalculo} from '../../model/resultado-calculo';
+import {CronogramaFila} from '../../model/cronograma-fila';
+import {Router} from '@angular/router';
+import {SimulationStateService} from '../../services/simulation-state-service';
 @Component({
   selector: 'app-simulation',
   imports: [
@@ -29,6 +34,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class Simulation {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly creditoService = inject(CreditoService);
+  private readonly router = inject(Router);
+  private readonly simulationState = inject(SimulationStateService);
+
+  resultado?: ResultadoCalculo;
+
+  cronograma: CronogramaFila[] = [];
 
   readonly simulationForm = this.fb.group({
     currency: ['PEN'],
@@ -42,16 +54,21 @@ export class Simulation {
     gracePeriodDuration: [2, [Validators.required, Validators.min(0)]]
   });
 
-  estimatedMonthlyPayment = 1624.85;
-  financedCapital = 45000.00;
-  projectedTotalInterest = 13494.60;
-  gracePeriodAccumulation = 1087.50;
-  totalDisbursement = 58494.60;
-  appliedRate = 14.50;
+  estimatedMonthlyPayment = 0;
+  financedCapital = 0;
+  projectedTotalInterest = 0;
+  gracePeriodAccumulation = 0;
+  totalDisbursement = 0;
+  appliedRate = 0;
 
   ngOnInit(): void {
-    this.simulationForm.get('rateType')?.valueChanges.subscribe((type) => {
-      const freqControl = this.simulationForm.get('capitalizationFrequency');
+
+    this.simulationForm.get('rateType')
+      ?.valueChanges.subscribe(type => {
+
+      const freqControl =
+        this.simulationForm.get('capitalizationFrequency');
+
       if (type === 'TEA') {
         freqControl?.setValue('No Aplica (Efectiva)');
         freqControl?.disable();
@@ -62,42 +79,152 @@ export class Simulation {
     });
 
     this.simulationForm.valueChanges.subscribe(() => {
-      if (this.simulationForm.valid) {
-        this.recalculateProjections();
-      }
+
+      const amount =
+        this.simulationForm.get('amount')?.value ?? 0;
+
+      this.financedCapital = amount;
     });
   }
 
-  private recalculateProjections(): void {
-    const rawAmount = this.simulationForm.get('amount')?.value ?? 0;
-    this.financedCapital = rawAmount;
-    this.appliedRate = this.simulationForm.get('rateValue')?.value ?? 0;
-
-    this.projectedTotalInterest = Number((this.financedCapital * (this.appliedRate / 100) * 2.068).toFixed(2));
-    this.gracePeriodAccumulation = Number((this.financedCapital * 0.02416).toFixed(2));
-    this.totalDisbursement = Number((this.financedCapital + this.projectedTotalInterest).toFixed(2));
-    this.estimatedMonthlyPayment = Number((this.totalDisbursement / (this.simulationForm.get('totalMonths')?.value ?? 36)).toFixed(2));
-  }
-
   generateAmortization(): void {
-    if (this.simulationForm.valid) {
-      this.snackBar.open('Cronograma de amortización generado con éxito', 'Cerrar', {
-        duration: 4000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      });
+
+    if (this.simulationForm.invalid) {
+      return;
     }
+
+    const amount =
+      this.simulationForm.get('amount')?.value ?? 0;
+
+    const initialPercent =
+      this.simulationForm.get('initialQuotaPercent')?.value ?? 0;
+
+    const cuotaInicial =
+      amount * (initialPercent / 100);
+
+    const request = {
+
+      idCliente: 1,
+      idVehiculo: 1,
+
+      moneda: 'PEN',
+
+      tipoTasa:
+        this.simulationForm.get('rateType')?.value === 'TEA'
+          ? 'EFECTIVA'
+          : 'NOMINAL',
+
+      tasaInteres:
+        this.simulationForm.get('rateValue')?.value ?? 0,
+
+      frecuenciaCapitalizacion: 'MENSUAL',
+
+      plazoMeses:
+        this.simulationForm.get('totalMonths')?.value ?? 12,
+
+      tipoGracia:
+        this.mapGraceType(
+          this.simulationForm.get('gracePeriodType')?.value
+        ),
+
+      periodoGracia:
+        this.simulationForm.get('gracePeriodDuration')?.value ?? 0,
+
+      precioVehiculo: amount,
+
+      cuotaInicial: cuotaInicial,
+
+      valorResidual: 5000,
+
+      seguroDesgravamen: 0.077,
+
+      seguroVehicular: 0,
+
+      portes: 0,
+
+      fechaInicio:
+        new Date().toISOString().split('T')[0]
+    };
+
+    this.creditoService.simular(request)
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(request)
+          console.log(response);
+
+          this.resultado = response;
+
+          this.cronograma =
+            response.cronograma;
+
+          this.estimatedMonthlyPayment =
+            response.cuotaOrdinaria;
+
+          this.projectedTotalInterest =
+            response.totalIntereses;
+
+          this.totalDisbursement =
+            response.totalPagado;
+
+          this.appliedRate =
+            response.tea * 100;
+
+          this.snackBar.open(
+            'Cronograma generado correctamente',
+            'Cerrar',
+            {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            }
+          );
+
+          this.simulationState.resultado = response;
+
+          this.router.navigateByUrl('/QCSFINANCE/pagos');
+        },
+
+        error: (error) => {
+
+          console.error(error);
+
+          this.snackBar.open(
+            'Error al generar simulación',
+            'Cerrar',
+            {
+              duration: 3000
+            }
+          );
+        }
+      });
+  }
+  saveScenario(): void {
+
+    this.snackBar.open(
+      'Funcionalidad pendiente',
+      'Cerrar',
+      {
+        duration: 3000
+      }
+    );
   }
 
-  saveScenario(): void {
-    if (this.simulationForm.valid) {
-      this.snackBar.open('Escenario de simulación guardado correctamente', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      });
+  private mapGraceType(
+    value: string | null | undefined
+  ): string {
+
+    switch (value) {
+
+      case 'Total':
+        return 'TOTAL';
+
+      case 'Parcial (Solo Interés)':
+        return 'PARCIAL';
+
+      default:
+        return 'SIN_GRACIA';
     }
   }
 }

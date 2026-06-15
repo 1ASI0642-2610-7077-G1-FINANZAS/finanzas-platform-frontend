@@ -7,10 +7,14 @@ import {RegCliente} from './components/reg-cliente/reg-cliente';
 import { Vehiculo } from './components/vehiculo/vehiculo';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'QCSFINANCE/authenticate', pathMatch: 'full' },
+
   { path: 'QCSFINANCE/authenticate', component: Login},
   { path: 'QCSFINANCE/user', component: Signup},
   { path: 'QCSFINANCE/simulation', component: Simulation},
   { path: 'QCSFINANCE/pagos', component: Pagos},
   { path: 'QCSFINANCE/registro_cliente', component: RegCliente},
-  {path: 'QCSFINANCE/seleccion_vehiculo', component: Vehiculo},
+  { path: 'QCSFINANCE/seleccion_vehiculo', component: Vehiculo},
+
+  { path: '', redirectTo: 'QCSFINANCE/authenticate', pathMatch: 'full' },
 ];
