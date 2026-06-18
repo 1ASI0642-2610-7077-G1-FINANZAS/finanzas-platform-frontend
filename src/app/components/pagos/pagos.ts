@@ -1,12 +1,13 @@
 import {Component, inject} from '@angular/core';
 import {SimulationStateService} from '../../services/simulation-state-service';
 import {CommonModule, DecimalPipe} from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pagos',
   imports: [
     DecimalPipe,
-    CommonModule
+    CommonModule,RouterModule
   ],
   templateUrl: './pagos.html',
   styleUrl: './pagos.css',

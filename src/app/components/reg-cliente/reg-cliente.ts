@@ -2,11 +2,12 @@ import {Component, inject} from '@angular/core';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ClienteService} from '../../services/cliente-service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-reg-cliente',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,RouterModule
   ],
   templateUrl: './reg-cliente.html',
   styleUrl: './reg-cliente.css',

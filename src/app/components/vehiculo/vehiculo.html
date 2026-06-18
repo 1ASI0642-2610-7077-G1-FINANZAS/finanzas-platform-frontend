@@ -16,35 +16,66 @@
   <div class="dashboard-layout">
 
     <aside class="sidebar-aside">
-      <div class="sidebar-top-branding">
-        <span class="sidebar-brand-name">QCS FINANCE</span>
-        <span class="sidebar-brand-division">Institutional Credit Systems</span>
-      </div>
 
-      <nav class="sidebar-menu-links">
-        <a class="menu-link-item">
-          <span class="menu-icon">▦</span>
-          <span>Dashboard</span>
-        </a>
-        <a class="menu-link-item active">
-          <span class="menu-icon">🚗</span>
-          <span>Vehicle Valuation</span>
-        </a>
-        <a class="menu-link-item">
-          <span class="menu-icon">🧮</span>
-          <span>Credit Simulator</span>
-        </a>
-        <a class="menu-link-item">
-          <span class="menu-icon">📋</span>
-          <span>Amortization Logs</span>
-        </a>
-      </nav>
+  <div class="sidebar-top-branding">
+    <div class="sidebar-logo-square">QCS</div>
 
-      <div class="sidebar-bottom-actions">
-        <a class="menu-link-item" style="color:#76777D;font-size:12px">⚙ Support</a>
-        <a class="menu-link-item logout-action" style="font-size:12px">↩ Sign Out</a>
-      </div>
-    </aside>
+    <div class="sidebar-text-branding">
+      <span class="sidebar-brand-name">QCS FINANCE</span>
+      <span class="sidebar-brand-division">
+        GESTIÓN DE CRÉDITO VEHICULAR
+      </span>
+    </div>
+  </div>
+
+  <nav class="sidebar-menu-links">
+
+    <a
+      routerLink="/QCSFINANCE/registro_cliente"
+      routerLinkActive="active"
+      class="menu-link-item">
+      <span class="menu-icon">👤</span>
+      <span>Registro Cliente</span>
+    </a>
+
+    <a
+      routerLink="/QCSFINANCE/seleccion_vehiculo"
+      routerLinkActive="active"
+      class="menu-link-item">
+      <span class="menu-icon">🚗</span>
+      <span>Selección Vehículo</span>
+    </a>
+
+    <a
+      routerLink="/QCSFINANCE/simulation"
+      routerLinkActive="active"
+      class="menu-link-item">
+      <span class="menu-icon">🧮</span>
+      <span>Simulador de Crédito</span>
+    </a>
+
+    <a
+      routerLink="/QCSFINANCE/pagos"
+      routerLinkActive="active"
+      class="menu-link-item">
+      <span class="menu-icon">📋</span>
+      <span>Cronograma de Pagos</span>
+    </a>
+
+  </nav>
+
+  <div class="sidebar-bottom-actions">
+
+    <a
+      routerLink="/QCSFINANCE/authenticate"
+      class="menu-link-item logout-action">
+      <span class="menu-icon">↩</span>
+      <span>Cerrar Sesión</span>
+    </a>
+
+  </div>
+
+</aside>
 
     <main class="main-workspace-scroller">
       <div class="workspace-centered-restrictor">

@@ -1,50 +1,84 @@
 <div class="dashboard-container">
   <header class="top-navbar">
-    <div class="nav-brand">
-      <span class="brand-text">QCS FINANCE</span>
+  <div class="nav-brand">QCS FINANCE</div>
+
+  <div class="nav-actions">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Buscar registros..." aria-label="Buscar">
     </div>
-    <div class="nav-actions">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Buscar registros..." aria-label="Buscar" />
-      </div>
-      <div class="user-profile">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="avatar-img" />
+
+    <div class="user-profile">
+      <span class="avatar-initials">AV</span>
+    </div>
+  </div>
+</header>
+
+<div class="dashboard-layout">
+
+  <aside class="sidebar-aside">
+
+    <div class="sidebar-top-branding">
+      <div class="sidebar-logo-square">QCS</div>
+
+      <div class="sidebar-text-branding">
+        <span class="sidebar-brand-name">QCS FINANCE</span>
+        <span class="sidebar-brand-division">
+          GESTIÓN DE CRÉDITO VEHICULAR
+        </span>
       </div>
     </div>
-  </header>
 
-  <div class="dashboard-layout">
+    <nav class="sidebar-menu-links">
 
-    <aside class="sidebar-aside">
-      <div class="sidebar-top-branding">
-        <div class="sidebar-logo-square">
-          <img src="assets/ic_logo_2.svg" alt="Logo" class="sidebar-logo-img" />
-        </div>
-        <div class="sidebar-text-branding">
-          <span class="sidebar-brand-name">QCS FINANCE</span>
-          <span class="sidebar-brand-division">GESTIÓN DE CRÉDITO VEHICULAR</span>
-        </div>
-      </div>
+      <a
+        routerLink="/QCSFINANCE/registro_cliente"
+        routerLinkActive="active"
+        class="menu-link-item">
+        <span class="menu-icon">👤</span>
+        <span>Registro Cliente</span>
+      </a>
 
-      <nav class="sidebar-menu-links">
-        <a class="menu-link-item active">
-          <img src="assets/ic_calculator.svg" alt="" class="menu-link-icon" />
-          <span class="menu-link-text">Simulador de Crédito</span>
-        </a>
-        <a class="menu-link-item">
-          <img src="assets/ic_scheduler.svg" alt="" class="menu-link-icon" />
-          <span class="menu-link-text">Cronograma de Pagos</span>
-        </a>
-      </nav>
+      <a
+        routerLink="/QCSFINANCE/seleccion_vehiculo"
+        routerLinkActive="active"
+        class="menu-link-item">
+        <span class="menu-icon">🚗</span>
+        <span>Selección Vehículo</span>
+      </a>
 
-      <div class="sidebar-bottom-actions">
-        <a class="menu-link-item logout-action">
-          <span class="logout-bullet-icon">Logout</span>
-          <span class="menu-link-text">Cerrar Sesión</span>
-        </a>
-      </div>
-    </aside>
+      <a
+        routerLink="/QCSFINANCE/simulation"
+        routerLinkActive="active"
+        class="menu-link-item">
+        <span class="menu-icon">🧮</span>
+        <span>Simulador de Crédito</span>
+      </a>
+
+      <a
+        routerLink="/QCSFINANCE/pagos"
+        routerLinkActive="active"
+        class="menu-link-item">
+        <span class="menu-icon">📋</span>
+        <span>Cronograma de Pagos</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom-actions">
+
+      <a
+        routerLink="/QCSFINANCE/authenticate"
+        class="menu-link-item logout-action">
+
+        <span class="menu-icon">↩</span>
+        <span>Cerrar Sesión</span>
+
+      </a>
+
+    </div>
+
+  </aside>
 
     <main class="main-workspace-scroller">
       <div class="workspace-centered-restrictor">

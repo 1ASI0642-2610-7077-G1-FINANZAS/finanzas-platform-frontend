@@ -12,7 +12,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {CreditoService} from '../../services/credito-service';
 import {ResultadoCalculo} from '../../model/resultado-calculo';
 import {CronogramaFila} from '../../model/cronograma-fila';
-import {Router} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import {SimulationStateService} from '../../services/simulation-state-service';
 @Component({
   selector: 'app-simulation',
@@ -26,7 +26,7 @@ import {SimulationStateService} from '../../services/simulation-state-service';
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
-    MatSnackBarModule
+    MatSnackBarModule,RouterModule
   ],
   templateUrl: './simulation.html',
   styleUrl: './simulation.css',

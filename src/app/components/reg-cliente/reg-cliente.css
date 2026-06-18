@@ -17,22 +17,28 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .dashboard-layout{display:flex;flex-direction:row;flex:1;width:100%;height:calc(100vh - 65px);overflow:hidden}
 
 /* SIDEBAR */
-.sidebar-aside{width:220px;background:#FFFFFF;border-right:1px solid rgba(198,198,205,.5);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;height:100%}
-.sidebar-top-branding{padding:0 20px 24px 20px;border-bottom:1px solid rgba(198,198,205,.3)}
+.sidebar-aside{width:260px;background:#FFFFFF;border-right:1px solid rgba(198,198,205,.5);display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;height:100%}
+.sidebar-top-branding{  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 24px 24px 24px;border-bottom:1px solid rgba(198,198,205,.3)}
 .sidebar-brand-name{font-weight:700;font-size:14px;color:#191C1E;display:block}
 .sidebar-brand-division{font-size:9px;font-weight:600;color:#76777D;letter-spacing:.3px;display:block;margin-top:2px}
-.sidebar-menu-links{padding:20px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
-.menu-link-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;color:#45464D;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .2s ease}
+.sidebar-menu-links{padding:24px 16px;
+  gap:8px;display:flex;flex-direction:column;flex:1}
+.menu-link-item{display:flex;align-items:center; gap:12px;
+  padding:12px 16px;
+  font-size:14px;;border-radius:6px;color:#45464D;font-weight:500;text-decoration:none;cursor:pointer;transition:all .2s ease}
 .menu-link-item:hover{background:#F8F9FA;color:#191C1E}
-.menu-link-item.active{background:rgba(0,81,213,.08);color:#0051D5;font-weight:600;border-left:3px solid #0051D5;border-radius:0 6px 6px 0;padding-left:9px}
+.menu-link-item.active{background:rgba(0,81,213,.08);color:#0051D5;font-weight:600;border-left:3px solid #0051D5;border-radius:0 6px 6px 0;padding-left:13px}
 .menu-icon{font-size:15px;flex-shrink:0}
 .sidebar-section-label{font-size:10px;font-weight:700;color:#76777D;letter-spacing:.5px;padding:8px 12px 4px 12px;text-transform:uppercase}
-.sidebar-bottom-actions{padding:16px 12px;border-top:1px solid rgba(198,198,205,.3);display:flex;flex-direction:column;gap:4px}
+.sidebar-bottom-actions{padding:16px;border-top:1px solid rgba(198,198,205,.3);display:flex;flex-direction:column;gap:4px}
 .logout-action{color:#BA1A1A!important}
 
 /* MAIN */
-.main-workspace-scroller{flex:1;padding:32px 36px;overflow-y:auto;height:100%}
-.workspace-centered-restrictor{max-width:960px;margin:0 auto;width:100%}
+.main-workspace-scroller{flex:1;padding:32px 40px;overflow-y:auto;height:100%}
+.workspace-centered-restrictor{max-width:1280px;margin:0 auto;width:100%}
 
 /* VIEW HEADER */
 .workspace-view-header{margin-bottom:28px}
@@ -75,7 +81,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
   .fields-row.col-2,.fields-row.col-3{grid-template-columns:1fr}
 }
 
-.input-cell{display:flex;flex-direction:column;gap:7px}
+.input-cell{display:flex;flex-direction:column;gap:8px}
 .input-label{font-size:11px;font-weight:700;color:#45464D;letter-spacing:.5px}
 
 /* INPUTS — styled like material outline inputs */
