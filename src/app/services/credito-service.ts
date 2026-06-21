@@ -24,4 +24,13 @@ export class CreditoService {
       request
     );
   }
+
+  crearCredito(request: CreditoRequest): Observable<any> {
+    return this.http.post<any>(
+      `${this.url}`,
+      request
+    );
+  }
+
+
 }

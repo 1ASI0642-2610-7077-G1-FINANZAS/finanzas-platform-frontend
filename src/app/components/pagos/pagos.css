@@ -473,3 +473,75 @@ table.schedule-table {
   .bottom-summary-strip { flex-wrap: wrap; }
   .summary-strip-cell { flex: 0 0 50%; border-bottom: 1px solid #EAECEF; }
 }
+/* Contenedor de las nuevas acciones (alineación a la derecha) */
+.workspace-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Estilos para los Selects */
+.header-select {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  min-width: 200px;
+  transition: all 0.2s ease;
+}
+
+.header-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Estilos para el Botón de Crear Crédito */
+.btn-create-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #10b981; /* Verde "approved" o el tono primario que uses */
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.btn-create-credit:hover {
+  background-color: #059669;
+}
+
+.btn-create-credit:active {
+  transform: scale(0.98);
+}
+
+/* Utility clase para accesibilidad visual */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

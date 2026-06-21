@@ -96,7 +96,57 @@
               <span class="view-meta-chip">Solicitud #CRD-2023-8842</span>
             </div>
           </div>
+
+          <div class="header-actions-group">
+            <div class="select-wrapper">
+              <label for="cliente-select" class="sr-only">Seleccionar Cliente</label>
+              <select id="cliente-select" class="header-select" [(ngModel)]="selectedCliente">
+                <option value="" disabled selected>Seleccionar Cliente...</option>
+                @for (
+                  cliente of clientes;
+                  track cliente.idCliente
+                  ) {
+
+                  <option
+                    [value]="cliente.idCliente">
+
+                    {{ cliente.nombres }}
+                    {{ cliente.apellidos }}
+
+                  </option>
+
+                }
+              </select>
+            </div>
+
+            <div class="select-wrapper">
+              <label for="vehiculo-select" class="sr-only">Seleccionar Vehículo</label>
+              <select id="vehiculo-select" class="header-select" [(ngModel)]="selectedVehiculo">
+                <option value="" disabled selected>Seleccionar Vehículo...</option>
+                @for (
+                  vehiculo of vehiculos;
+                  track vehiculo.idVehiculo
+                  ) {
+
+                  <option
+                    [value]="vehiculo.idVehiculo">
+
+                    {{ vehiculo.marca }}
+                    {{ vehiculo.modelo }}
+                    {{ vehiculo.anio }}
+
+                  </option>
+
+                }
+              </select>
+            </div>
+
+            <button class="btn-create-credit" (click)="crearCredito()">
+              <span class="btn-icon">➕</span> Crear Crédito
+            </button>
+          </div>
         </div>
+
 
         <!-- KPI METRICS -->
         <div class="kpi-metrics-row">

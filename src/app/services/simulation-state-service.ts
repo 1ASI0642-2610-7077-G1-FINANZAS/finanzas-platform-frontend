@@ -1,5 +1,6 @@
 import {Injectable, Service} from '@angular/core';
 import {ResultadoCalculo} from '../model/resultado-calculo';
+import {CreditoRequest} from '../model/credito-request';
 
 @Injectable({
   providedIn: 'root'
@@ -7,5 +8,7 @@ import {ResultadoCalculo} from '../model/resultado-calculo';
 export class SimulationStateService {
 
   resultado?: ResultadoCalculo;
+
+  creditoRequest?: CreditoRequest;
 
 }

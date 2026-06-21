@@ -183,6 +183,10 @@ export class Simulation {
 
           this.simulationState.resultado = response;
 
+          this.simulationState.creditoRequest = request;
+
+          console.log(this.simulationState.creditoRequest);
+
           this.router.navigateByUrl('/QCSFINANCE/pagos');
         },
 
