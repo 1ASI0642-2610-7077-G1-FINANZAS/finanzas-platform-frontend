@@ -1,84 +1,48 @@
 <div class="dashboard-container">
   <header class="top-navbar">
-  <div class="nav-brand">QCS FINANCE</div>
-
-  <div class="nav-actions">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Buscar registros..." aria-label="Buscar">
-    </div>
-
-    <div class="user-profile">
-      <span class="avatar-initials">AV</span>
-    </div>
-  </div>
-</header>
-
-<div class="dashboard-layout">
-
-  <aside class="sidebar-aside">
-
-    <div class="sidebar-top-branding">
-      <div class="sidebar-logo-square">QCS</div>
-
-      <div class="sidebar-text-branding">
-        <span class="sidebar-brand-name">QCS FINANCE</span>
-        <span class="sidebar-brand-division">
-          GESTIÓN DE CRÉDITO VEHICULAR
-        </span>
+    <div class="nav-brand">QCS FINANCE</div>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar registros..." aria-label="Buscar">
+      </div>
+      <div class="user-profile">
+        <span class="avatar-initials">AV</span>
       </div>
     </div>
+  </header>
 
-    <nav class="sidebar-menu-links">
+  <div class="dashboard-layout">
+    <aside class="sidebar-aside">
+      <div class="sidebar-top-branding">
+        <div class="sidebar-logo-square">QCS</div>
+        <div class="sidebar-text-branding">
+          <span class="sidebar-brand-name">QCS FINANCE</span>
+          <span class="sidebar-brand-division">GESTIÓN DE CRÉDITO VEHICULAR</span>
+        </div>
+      </div>
 
-      <a
-        routerLink="/QCSFINANCE/registro_cliente"
-        routerLinkActive="active"
-        class="menu-link-item">
-        <span class="menu-icon">👤</span>
-        <span>Registro Cliente</span>
-      </a>
+      <nav class="sidebar-menu-links">
+        <a routerLink="/QCSFINANCE/registro_cliente" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">👤</span><span>Registro Cliente</span>
+        </a>
+        <a routerLink="/QCSFINANCE/seleccion_vehiculo" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">🚗</span><span>Selección Vehículo</span>
+        </a>
+        <a routerLink="/QCSFINANCE/simulation" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">🧮</span><span>Simulador de Crédito</span>
+        </a>
+        <a routerLink="/QCSFINANCE/pagos" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">📋</span><span>Cronograma de Pagos</span>
+        </a>
+      </nav>
 
-      <a
-        routerLink="/QCSFINANCE/seleccion_vehiculo"
-        routerLinkActive="active"
-        class="menu-link-item">
-        <span class="menu-icon">🚗</span>
-        <span>Selección Vehículo</span>
-      </a>
-
-      <a
-        routerLink="/QCSFINANCE/simulation"
-        routerLinkActive="active"
-        class="menu-link-item">
-        <span class="menu-icon">🧮</span>
-        <span>Simulador de Crédito</span>
-      </a>
-
-      <a
-        routerLink="/QCSFINANCE/pagos"
-        routerLinkActive="active"
-        class="menu-link-item">
-        <span class="menu-icon">📋</span>
-        <span>Cronograma de Pagos</span>
-      </a>
-
-    </nav>
-
-    <div class="sidebar-bottom-actions">
-
-      <a
-        routerLink="/QCSFINANCE/authenticate"
-        class="menu-link-item logout-action">
-
-        <span class="menu-icon">↩</span>
-        <span>Cerrar Sesión</span>
-
-      </a>
-
-    </div>
-
-  </aside>
+      <div class="sidebar-bottom-actions">
+        <a routerLink="/QCSFINANCE/authenticate" class="menu-link-item logout-action">
+          <span class="menu-icon">↩</span><span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
 
     <main class="main-workspace-scroller">
       <div class="workspace-centered-restrictor">
@@ -94,18 +58,65 @@
           </div>
         </div>
 
+        <!-- ========== PANEL DE VEHÍCULO SELECCIONADO ========== -->
+        @if (vehiculoSeleccionado(); as v) {
+          <div class="selected-vehicle-banner">
+            <div class="banner-left">
+              <span class="banner-icon">🚗</span>
+              <div class="banner-info">
+                <span class="banner-label">VEHÍCULO SELECCIONADO</span>
+                <span class="banner-name">{{ v.marca }} {{ v.modelo }} · {{ v.anio }}</span>
+              </div>
+            </div>
+            <div class="banner-right">
+              <div class="banner-price-block">
+                <span class="banner-price-label">PRECIO BASE</span>
+                <span class="banner-price">S/ {{ v.precio | number:'1.2-2' }}</span>
+              </div>
+              <button class="banner-change-btn" (click)="cambiarVehiculo()">Cambiar Vehículo</button>
+            </div>
+          </div>
+        }
+
         <div class="simulation-workspace-grid">
 
           <form [formGroup]="simulationForm" class="inputs-form-container">
 
+            <!-- ========== SELECCIÓN DE CLIENTE ========== -->
             <mat-card class="simulation-step-card" appearance="outlined">
               <mat-card-header class="step-card-header">
                 <div class="step-card-title-layout">
-                  <img src="assets/ic_money.svg" alt="" class="step-card-icon" />
+                  <span class="step-card-icon" style="font-size:18px">👤</span>
+                  <span class="step-card-title-text">Cliente Solicitante</span>
+                </div>
+              </mat-card-header>
+              <mat-card-content class="step-card-body">
+                <div class="input-cell-wrapper">
+                  <label class="input-cell-label" for="idCliente">CLIENTE</label>
+                  <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
+                    <mat-select id="idCliente" formControlName="idCliente" placeholder="Selecciona un cliente">
+                      @if (clientes().length === 0) {
+                        <mat-option [value]="0" disabled>No hay clientes registrados</mat-option>
+                      }
+                      @for (c of clientes(); track c.idCliente) {
+                        <mat-option [value]="c.idCliente">{{ nombreCliente(c) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- ========== CONFIGURACIÓN DE CAPITAL ========== -->
+            <mat-card class="simulation-step-card" appearance="outlined">
+              <mat-card-header class="step-card-header">
+                <div class="step-card-title-layout">
+                  <span class="step-card-icon" style="font-size:18px">💵</span>
                   <span class="step-card-title-text">Configuración de Capital</span>
                 </div>
               </mat-card-header>
               <mat-card-content class="step-card-body">
+
                 <div class="fields-form-row layout-split-50-50">
                   <div class="input-cell-wrapper">
                     <label class="input-cell-label">MONEDA</label>
@@ -113,13 +124,11 @@
                       <div class="currency-label-inner">PEN (S/.)</div>
                     </div>
                   </div>
-
                   <div class="input-cell-wrapper">
-                    <label class="input-cell-label" for="amount">MONTO SOLICITADO</label>
-                    <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
-                      <span matPrefix class="currency-symbol-prefix">S/ &nbsp;</span>
-                      <input matInput id="amount" type="number" formControlName="amount" placeholder="0.00" />
-                    </mat-form-field>
+                    <label class="input-cell-label">PRECIO DEL VEHÍCULO</label>
+                    <div class="readonly-value-box">
+                      S/ {{ vehiculoSeleccionado()?.precio ?? 0 | number:'1.2-2' }}
+                    </div>
                   </div>
                 </div>
 
@@ -129,18 +138,32 @@
                     <span class="slider-dynamic-percentage">{{ simulationForm.get('initialQuotaPercent')?.value }}%</span>
                   </div>
                   <div class="slider-alignment-row">
-                    <mat-slider min="0" max="100" step="5" discrete class="material-custom-slider">
+                    <mat-slider min="20" max="80" step="5" discrete class="material-custom-slider">
                       <input matSliderThumb formControlName="initialQuotaPercent" />
                     </mat-slider>
                   </div>
+                  <span class="hint-helper">Mínimo 20% según política vigente para crédito vehicular en Perú.</span>
                 </div>
+
+                <div class="calc-summary-row">
+                  <div class="calc-cell">
+                    <span class="calc-label">Cuota Inicial</span>
+                    <span class="calc-value">S/ {{ cuotaInicialMonto | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="calc-cell calc-cell-highlight">
+                    <span class="calc-label">Monto a Financiar</span>
+                    <span class="calc-value">S/ {{ financedCapital | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+
               </mat-card-content>
             </mat-card>
 
+            <!-- ========== AJUSTES DE TASA ========== -->
             <mat-card class="simulation-step-card" appearance="outlined">
               <mat-card-header class="step-card-header">
                 <div class="step-card-title-layout">
-                  <img src="assets/ic_arrow.svg" alt="" class="step-card-icon" />
+                  <span class="step-card-icon" style="font-size:18px">📈</span>
                   <span class="step-card-title-text">Ajustes de Tasa</span>
                 </div>
               </mat-card-header>
@@ -161,7 +184,6 @@
                       <span matSuffix class="input-symbol-suffix">%</span>
                     </mat-form-field>
                   </div>
-
                   <div class="input-cell-wrapper">
                     <label class="input-cell-label" for="capitalizationFrequency">FRECUENCIA DE CAPITALIZACIÓN</label>
                     <mat-form-field appearance="outline" class="material-custom-input mat-field-disabled-state" subscriptSizing="fixed">
@@ -172,10 +194,11 @@
               </mat-card-content>
             </mat-card>
 
+            <!-- ========== PLAZOS Y GRACIA ========== -->
             <mat-card class="simulation-step-card" appearance="outlined">
               <mat-card-header class="step-card-header">
                 <div class="step-card-title-layout">
-                  <img src="assets/ic_calendar.svg" alt="" class="step-card-icon" />
+                  <span class="step-card-icon" style="font-size:18px">📅</span>
                   <span class="step-card-title-text">Plazos y Periodos de Gracia</span>
                 </div>
               </mat-card-header>
@@ -184,26 +207,75 @@
                   <div class="input-cell-wrapper">
                     <label class="input-cell-label" for="totalMonths">PLAZO TOTAL (MESES)</label>
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
-                      <input matInput id="totalMonths" type="number" formControlName="totalMonths" />
+                      <input matInput id="totalMonths" type="number" formControlName="totalMonths" min="12" max="72" />
                     </mat-form-field>
                   </div>
-
                   <div class="input-cell-wrapper">
                     <label class="input-cell-label" for="gracePeriodType">TIPO DE PERIODO DE GRACIA</label>
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
                       <mat-select id="gracePeriodType" formControlName="gracePeriodType">
+                        <mat-option value="Sin Gracia">Sin Periodo de Gracia</mat-option>
                         <mat-option value="Parcial (Solo Interés)">Parcial (Solo Interés)</mat-option>
                         <mat-option value="Total">Total Sin Pago</mat-option>
-                        <mat-option value="Sin Gracia">Sin Periodo de Gracia</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
-
                   <div class="input-cell-wrapper">
                     <label class="input-cell-label" for="gracePeriodDuration">DURACIÓN DE GRACIA</label>
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
-                      <input matInput id="gracePeriodDuration" type="number" formControlName="gracePeriodDuration" />
+                      <input matInput id="gracePeriodDuration" type="number" formControlName="gracePeriodDuration" min="0" />
                       <span matSuffix class="input-symbol-suffix">Meses</span>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- ========== VALOR RESIDUAL Y SEGUROS ========== -->
+            <mat-card class="simulation-step-card" appearance="outlined">
+              <mat-card-header class="step-card-header">
+                <div class="step-card-title-layout">
+                  <span class="step-card-icon" style="font-size:18px">🛡️</span>
+                  <span class="step-card-title-text">Valor Residual y Costos Adicionales</span>
+                </div>
+              </mat-card-header>
+              <mat-card-content class="step-card-body">
+
+                <div class="input-cell-wrapper slider-margin-box">
+                  <div class="slider-labels-row">
+                    <label class="input-cell-label">VALOR RESIDUAL (%) — CUOTA BALLOON</label>
+                    <span class="slider-dynamic-percentage">{{ simulationForm.get('valorResidualPercent')?.value }}%</span>
+                  </div>
+                  <div class="slider-alignment-row">
+                    <mat-slider min="0" max="50" step="5" discrete class="material-custom-slider">
+                      <input matSliderThumb formControlName="valorResidualPercent" />
+                    </mat-slider>
+                  </div>
+                  <span class="hint-helper">
+                    Monto residual: S/ {{ valorResidualMonto | number:'1.2-2' }} — cuota final que el cliente pagará para quedarse con el vehículo.
+                  </span>
+                </div>
+
+                <div class="fields-form-row layout-split-triple" style="margin-top:18px">
+                  <div class="input-cell-wrapper">
+                    <label class="input-cell-label" for="seguroDesgravamen">SEGURO DE DESGRAVAMEN</label>
+                    <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
+                      <input matInput id="seguroDesgravamen" type="number" formControlName="seguroDesgravamen" step="0.001" />
+                      <span matSuffix class="input-symbol-suffix">%</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="input-cell-wrapper">
+                    <label class="input-cell-label" for="seguroVehicular">SEGURO VEHICULAR</label>
+                    <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
+                      <input matInput id="seguroVehicular" type="number" formControlName="seguroVehicular" step="0.001" />
+                      <span matSuffix class="input-symbol-suffix">%</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="input-cell-wrapper">
+                    <label class="input-cell-label" for="portes">PORTES MENSUALES</label>
+                    <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
+                      <span matPrefix class="currency-symbol-prefix">S/&nbsp;</span>
+                      <input matInput id="portes" type="number" formControlName="portes" step="0.01" />
                     </mat-form-field>
                   </div>
                 </div>
@@ -212,6 +284,7 @@
 
           </form>
 
+          <!-- ========== RESUMEN DE PROYECCIÓN ========== -->
           <section class="projection-summary-panel">
             <mat-card class="sticky-financial-card" appearance="outlined">
               <div class="financial-top-teal-line"></div>
@@ -238,12 +311,12 @@
                     <span class="breakdown-value">S/ {{ financedCapital | number:'1.2-2' }}</span>
                   </div>
                   <div class="breakdown-item-row">
-                    <span class="breakdown-label">Total Interés Proyectado</span>
-                    <span class="breakdown-value">S/ {{ projectedTotalInterest | number:'1.2-2' }}</span>
+                    <span class="breakdown-label">Valor Residual</span>
+                    <span class="breakdown-value">S/ {{ valorResidualMonto | number:'1.2-2' }}</span>
                   </div>
                   <div class="breakdown-item-row">
-                    <span class="breakdown-label">Acumulación Periodo Gracia</span>
-                    <span class="breakdown-value">S/ {{ gracePeriodAccumulation | number:'1.2-2' }}</span>
+                    <span class="breakdown-label">Total Interés Proyectado</span>
+                    <span class="breakdown-value">S/ {{ projectedTotalInterest | number:'1.2-2' }}</span>
                   </div>
                   <div class="breakdown-horizontal-line"></div>
                   <div class="breakdown-item-row totals-highlight-row">
@@ -260,7 +333,7 @@
 
               <div class="financial-card-actions-area">
                 <button mat-flat-button class="action-btn-dark-flat" (click)="generateAmortization()" [disabled]="simulationForm.invalid">
-                  <img src="assets/ic_generate.svg" alt="" class="action-btn-img-icon" />
+                  <span style="font-size:14px">▶</span>
                   <span>Generar Amortización</span>
                 </button>
                 <button mat-stroked-button class="action-btn-light-stroked" (click)="saveScenario()" [disabled]="simulationForm.invalid">

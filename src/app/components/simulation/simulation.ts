@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,11 +9,20 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import {CreditoService} from '../../services/credito-service';
-import {ResultadoCalculo} from '../../model/resultado-calculo';
-import {CronogramaFila} from '../../model/cronograma-fila';
-import {Router, RouterModule} from '@angular/router';
-import {SimulationStateService} from '../../services/simulation-state-service';
+import { Router, RouterModule } from '@angular/router';
+
+import { CreditoService } from '../../services/credito-service';
+import { ResultadoCalculo } from '../../model/resultado-calculo';
+import { CronogramaFila } from '../../model/cronograma-fila';
+import { SimulationStateService } from '../../services/simulation-state-service';
+
+// IMPORTANTE: estas rutas deben coincidir con donde colocaste los archivos
+// vehiculo.model.ts, vehiculo.service.ts, cliente.model.ts, cliente.service.ts
+import { VehiculoService } from '../../services/vehiculo-service';
+import { Vehiculo } from '../../model/vehiculo';
+import { ClienteService } from '../../services/cliente-service';
+import { Cliente } from '../../model/cliente';
+
 @Component({
   selector: 'app-simulation',
   imports: [
@@ -26,49 +35,90 @@ import {SimulationStateService} from '../../services/simulation-state-service';
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
-    MatSnackBarModule,RouterModule
+    MatSnackBarModule,
+    RouterModule,
   ],
   templateUrl: './simulation.html',
   styleUrl: './simulation.css',
 })
-export class Simulation {
+export class Simulation implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly snackBar = inject(MatSnackBar);
   private readonly creditoService = inject(CreditoService);
   private readonly router = inject(Router);
   private readonly simulationState = inject(SimulationStateService);
+  private readonly vehiculoService = inject(VehiculoService);
+  private readonly clienteService = inject(ClienteService);
+
+  // ===== ESTADO =====
+  vehiculoSeleccionado = signal<Vehiculo | null>(null);
+  clientes = signal<Cliente[]>([]);
 
   resultado?: ResultadoCalculo;
-
   cronograma: CronogramaFila[] = [];
 
+  // ===== FORM =====
   readonly simulationForm = this.fb.group({
-    currency: ['PEN'],
-    amount: [45000.00, [Validators.required, Validators.min(1000)]],
-    initialQuotaPercent: [20, [Validators.required, Validators.min(0), Validators.max(100)]],
+    idCliente: [0, [Validators.required, Validators.min(1)]],
+    initialQuotaPercent: [20, [Validators.required, Validators.min(20), Validators.max(80)]],
     rateType: ['TEA'],
-    rateValue: [14.50, [Validators.required, Validators.min(0)]],
+    rateValue: [14.5, [Validators.required, Validators.min(0), Validators.max(50)]],
     capitalizationFrequency: [{ value: 'No Aplica (Efectiva)', disabled: true }],
-    totalMonths: [36, [Validators.required, Validators.min(1)]],
-    gracePeriodType: ['Parcial (Solo Interés)'],
-    gracePeriodDuration: [2, [Validators.required, Validators.min(0)]]
+    totalMonths: [36, [Validators.required, Validators.min(12), Validators.max(72)]],
+    gracePeriodType: ['Sin Gracia'],
+    gracePeriodDuration: [0, [Validators.required, Validators.min(0)]],
+    valorResidualPercent: [35, [Validators.required, Validators.min(0), Validators.max(50)]],
+    seguroDesgravamen: [0.077, [Validators.min(0)]],
+    seguroVehicular: [0.05, [Validators.min(0)]],
+    portes: [10, [Validators.min(0)]],
   });
 
-  estimatedMonthlyPayment = 0;
+  // ===== VALORES CALCULADOS EN VIVO =====
+  cuotaInicialMonto = 0;
   financedCapital = 0;
+  valorResidualMonto = 0;
+
+  // Resumen de proyección (se llena tras simular)
+  estimatedMonthlyPayment = 0;
   projectedTotalInterest = 0;
   gracePeriodAccumulation = 0;
   totalDisbursement = 0;
   appliedRate = 0;
 
+  // ===== LIFECYCLE =====
   ngOnInit(): void {
+    // 1. Verificar vehículo seleccionado
+    const veh = this.vehiculoService.obtenerSeleccionado();
+    if (!veh) {
+      this.snackBar.open('Primero debes seleccionar un vehículo', 'Ir', {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      this.router.navigate(['/QCSFINANCE/seleccion_vehiculo']);
+      return;
+    }
+    this.vehiculoSeleccionado.set(veh);
 
-    this.simulationForm.get('rateType')
-      ?.valueChanges.subscribe(type => {
+    // 2. Cargar clientes del backend
+    this.clienteService.listarClientes().subscribe({
+      next: (data) => {
+        this.clientes.set(data);
+        if (data.length === 0) {
+          this.snackBar.open('No hay clientes registrados. Registra uno primero.', 'Cerrar', {
+            duration: 4000,
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error cargando clientes:', err);
+        this.snackBar.open('No se pudieron cargar los clientes', 'Cerrar', { duration: 4000 });
+      },
+    });
 
-      const freqControl =
-        this.simulationForm.get('capitalizationFrequency');
-
+    // 3. Cambiar frecuencia según tipo de tasa
+    this.simulationForm.get('rateType')?.valueChanges.subscribe((type) => {
+      const freqControl = this.simulationForm.get('capitalizationFrequency');
       if (type === 'TEA') {
         freqControl?.setValue('No Aplica (Efectiva)');
         freqControl?.disable();
@@ -78,157 +128,115 @@ export class Simulation {
       }
     });
 
-    this.simulationForm.valueChanges.subscribe(() => {
-
-      const amount =
-        this.simulationForm.get('amount')?.value ?? 0;
-
-      this.financedCapital = amount;
+    // 4. Ajustar duración de gracia automáticamente si no hay gracia
+    this.simulationForm.get('gracePeriodType')?.valueChanges.subscribe((tipo) => {
+      if (tipo === 'Sin Gracia') {
+        this.simulationForm.get('gracePeriodDuration')?.setValue(0);
+      }
     });
+
+    // 5. Recalcular preview en vivo
+    this.simulationForm.valueChanges.subscribe(() => this.recalcularPreview());
+    this.recalcularPreview();
+  }
+
+  // ===== PREVIEW EN VIVO =====
+  private recalcularPreview(): void {
+    const v = this.vehiculoSeleccionado();
+    if (!v) return;
+
+    const pctInicial = this.simulationForm.get('initialQuotaPercent')?.value ?? 0;
+    const pctResidual = this.simulationForm.get('valorResidualPercent')?.value ?? 0;
+
+    this.cuotaInicialMonto = +(v.precio * (pctInicial / 100)).toFixed(2);
+    this.financedCapital = +(v.precio - this.cuotaInicialMonto).toFixed(2);
+    this.valorResidualMonto = +(v.precio * (pctResidual / 100)).toFixed(2);
+  }
+
+  // ===== ACCIONES =====
+  cambiarVehiculo(): void {
+    this.router.navigate(['/QCSFINANCE/seleccion_vehiculo']);
   }
 
   generateAmortization(): void {
-
+    const v = this.vehiculoSeleccionado();
+    if (!v) {
+      this.snackBar.open('No hay vehículo seleccionado', 'Cerrar', { duration: 3000 });
+      return;
+    }
     if (this.simulationForm.invalid) {
+      this.simulationForm.markAllAsTouched();
+      this.snackBar.open('Revisa los campos del formulario', 'Cerrar', { duration: 3000 });
       return;
     }
 
-    const amount =
-      this.simulationForm.get('amount')?.value ?? 0;
-
-    const initialPercent =
-      this.simulationForm.get('initialQuotaPercent')?.value ?? 0;
-
-    const cuotaInicial =
-      amount * (initialPercent / 100);
+    const fv = this.simulationForm.getRawValue();
+    const cuotaInicial = +(v.precio * (fv.initialQuotaPercent / 100)).toFixed(2);
+    const valorResidual = +(v.precio * (fv.valorResidualPercent / 100)).toFixed(2);
 
     const request = {
-
-      idCliente: 1,
-      idVehiculo: 1,
-
+      idCliente: fv.idCliente,
+      idVehiculo: v.idVehiculo!,
       moneda: 'PEN',
-
-      tipoTasa:
-        this.simulationForm.get('rateType')?.value === 'TEA'
-          ? 'EFECTIVA'
-          : 'NOMINAL',
-
-      tasaInteres:
-        this.simulationForm.get('rateValue')?.value ?? 0,
-
+      tipoTasa: fv.rateType === 'TEA' ? 'EFECTIVA' : 'NOMINAL',
+      tasaInteres: fv.rateValue,
       frecuenciaCapitalizacion: 'MENSUAL',
-
-      plazoMeses:
-        this.simulationForm.get('totalMonths')?.value ?? 12,
-
-      tipoGracia:
-        this.mapGraceType(
-          this.simulationForm.get('gracePeriodType')?.value
-        ),
-
-      periodoGracia:
-        this.simulationForm.get('gracePeriodDuration')?.value ?? 0,
-
-      precioVehiculo: amount,
-
+      plazoMeses: fv.totalMonths,
+      tipoGracia: this.mapGraceType(fv.gracePeriodType),
+      periodoGracia: fv.gracePeriodDuration,
+      precioVehiculo: v.precio,
       cuotaInicial: cuotaInicial,
-
-      valorResidual: 5000,
-
-      seguroDesgravamen: 0.077,
-
-      seguroVehicular: 0,
-
-      portes: 0,
-
-      fechaInicio:
-        new Date().toISOString().split('T')[0]
+      valorResidual: valorResidual,
+      seguroDesgravamen: fv.seguroDesgravamen,
+      seguroVehicular: fv.seguroVehicular,
+      portes: fv.portes,
+      fechaInicio: new Date().toISOString().split('T')[0],
     };
 
-    this.creditoService.simular(request)
-      .subscribe({
+    this.creditoService.simular(request).subscribe({
+      next: (response) => {
+        this.resultado = response;
+        this.cronograma = response.cronograma;
+        this.estimatedMonthlyPayment = response.cuotaOrdinaria;
+        this.projectedTotalInterest = response.totalIntereses;
+        this.totalDisbursement = response.totalPagado;
+        this.appliedRate = response.tea * 100;
 
-        next: (response) => {
+        this.simulationState.resultado = response;
+        this.simulationState.creditoRequest = request;
 
-          console.log(request)
-          console.log(response);
-
-          this.resultado = response;
-
-          this.cronograma =
-            response.cronograma;
-
-          this.estimatedMonthlyPayment =
-            response.cuotaOrdinaria;
-
-          this.projectedTotalInterest =
-            response.totalIntereses;
-
-          this.totalDisbursement =
-            response.totalPagado;
-
-          this.appliedRate =
-            response.tea * 100;
-
-          this.snackBar.open(
-            'Cronograma generado correctamente',
-            'Cerrar',
-            {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top'
-            }
-          );
-
-          this.simulationState.resultado = response;
-
-          this.simulationState.creditoRequest = request;
-
-          console.log(this.simulationState.creditoRequest);
-
-          this.router.navigateByUrl('/QCSFINANCE/pagos');
-        },
-
-        error: (error) => {
-
-          console.error(error);
-
-          this.snackBar.open(
-            'Error al generar simulación',
-            'Cerrar',
-            {
-              duration: 3000
-            }
-          );
-        }
-      });
+        this.snackBar.open('Cronograma generado correctamente', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.router.navigateByUrl('/QCSFINANCE/pagos');
+      },
+      error: (err) => {
+        console.error(err);
+        const msg = err?.error?.message || 'Error al generar simulación';
+        this.snackBar.open(msg, 'Cerrar', { duration: 4000 });
+      },
+    });
   }
+
   saveScenario(): void {
-
-    this.snackBar.open(
-      'Funcionalidad pendiente',
-      'Cerrar',
-      {
-        duration: 3000
-      }
-    );
+    this.snackBar.open('Funcionalidad pendiente', 'Cerrar', { duration: 3000 });
   }
 
-  private mapGraceType(
-    value: string | null | undefined
-  ): string {
-
+  // ===== UTILIDADES =====
+  private mapGraceType(value: string | null | undefined): string {
     switch (value) {
-
       case 'Total':
         return 'TOTAL';
-
       case 'Parcial (Solo Interés)':
         return 'PARCIAL';
-
       default:
         return 'SIN_GRACIA';
     }
+  }
+
+  nombreCliente(c: Cliente): string {
+    return `${c.nombres} ${c.apellidos} — ${c.tipoDocumento} ${c.numeroDocumento}`;
   }
 }
