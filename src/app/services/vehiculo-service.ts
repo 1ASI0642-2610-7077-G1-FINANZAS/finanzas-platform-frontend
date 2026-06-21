@@ -1,17 +1,44 @@
-import {inject, Service} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Vehiculo} from '../model/vehiculo';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Vehiculo } from '../model/vehiculo';
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class VehiculoService {
-  private readonly apiUrl = `${environment.apiUrl}/api/vehiculos`;
-
   private http = inject(HttpClient);
+  private readonly API = 'http://localhost:8080/api/vehiculos';
 
   listarVehiculos(): Observable<Vehiculo[]> {
-    return this.http.get<Vehiculo[]>(this.apiUrl);
+    return this.http.get<Vehiculo[]>(this.API);
   }
 
+  obtener(id: number): Observable<Vehiculo> {
+    return this.http.get<Vehiculo>(`${this.API}/${id}`);
+  }
+
+  crear(v: Vehiculo): Observable<Vehiculo> {
+    return this.http.post<Vehiculo>(this.API, v);
+  }
+
+  actualizar(id: number, v: Vehiculo): Observable<Vehiculo> {
+    return this.http.put<Vehiculo>(`${this.API}/${id}`, v);
+  }
+
+  eliminar(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API}/${id}`);
+  }
+
+  // Persistencia del vehículo seleccionado (para que el Simulador lo lea)
+  guardarSeleccionado(v: Vehiculo): void {
+    localStorage.setItem('vehiculo_seleccionado', JSON.stringify(v));
+  }
+
+  obtenerSeleccionado(): Vehiculo | null {
+    const raw = localStorage.getItem('vehiculo_seleccionado');
+    return raw ? (JSON.parse(raw) as Vehiculo) : null;
+  }
+
+  limpiarSeleccion(): void {
+    localStorage.removeItem('vehiculo_seleccionado');
+  }
 }

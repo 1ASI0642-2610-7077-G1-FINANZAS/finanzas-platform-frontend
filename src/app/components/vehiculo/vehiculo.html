@@ -1,5 +1,3 @@
-
-<body>
 <div class="dashboard-container">
 
   <header class="top-navbar">
@@ -17,65 +15,35 @@
 
     <aside class="sidebar-aside">
 
-  <div class="sidebar-top-branding">
-    <div class="sidebar-logo-square">QCS</div>
+      <div class="sidebar-top-branding">
+        <div class="sidebar-logo-square">QCS</div>
+        <div class="sidebar-text-branding">
+          <span class="sidebar-brand-name">QCS FINANCE</span>
+          <span class="sidebar-brand-division">GESTIÓN DE CRÉDITO VEHICULAR</span>
+        </div>
+      </div>
 
-    <div class="sidebar-text-branding">
-      <span class="sidebar-brand-name">QCS FINANCE</span>
-      <span class="sidebar-brand-division">
-        GESTIÓN DE CRÉDITO VEHICULAR
-      </span>
-    </div>
-  </div>
+      <nav class="sidebar-menu-links">
+        <a routerLink="/QCSFINANCE/registro_cliente" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">👤</span><span>Registro Cliente</span>
+        </a>
+        <a routerLink="/QCSFINANCE/seleccion_vehiculo" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">🚗</span><span>Selección Vehículo</span>
+        </a>
+        <a routerLink="/QCSFINANCE/simulation" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">🧮</span><span>Simulador de Crédito</span>
+        </a>
+        <a routerLink="/QCSFINANCE/pagos" routerLinkActive="active" class="menu-link-item">
+          <span class="menu-icon">📋</span><span>Cronograma de Pagos</span>
+        </a>
+      </nav>
 
-  <nav class="sidebar-menu-links">
-
-    <a
-      routerLink="/QCSFINANCE/registro_cliente"
-      routerLinkActive="active"
-      class="menu-link-item">
-      <span class="menu-icon">👤</span>
-      <span>Registro Cliente</span>
-    </a>
-
-    <a
-      routerLink="/QCSFINANCE/seleccion_vehiculo"
-      routerLinkActive="active"
-      class="menu-link-item">
-      <span class="menu-icon">🚗</span>
-      <span>Selección Vehículo</span>
-    </a>
-
-    <a
-      routerLink="/QCSFINANCE/simulation"
-      routerLinkActive="active"
-      class="menu-link-item">
-      <span class="menu-icon">🧮</span>
-      <span>Simulador de Crédito</span>
-    </a>
-
-    <a
-      routerLink="/QCSFINANCE/pagos"
-      routerLinkActive="active"
-      class="menu-link-item">
-      <span class="menu-icon">📋</span>
-      <span>Cronograma de Pagos</span>
-    </a>
-
-  </nav>
-
-  <div class="sidebar-bottom-actions">
-
-    <a
-      routerLink="/QCSFINANCE/authenticate"
-      class="menu-link-item logout-action">
-      <span class="menu-icon">↩</span>
-      <span>Cerrar Sesión</span>
-    </a>
-
-  </div>
-
-</aside>
+      <div class="sidebar-bottom-actions">
+        <a routerLink="/QCSFINANCE/authenticate" class="menu-link-item logout-action">
+          <span class="menu-icon">↩</span><span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
 
     <main class="main-workspace-scroller">
       <div class="workspace-centered-restrictor">
@@ -85,183 +53,92 @@
           <p class="view-subtitle">Gestione el inventario disponible o registre una nueva unidad para iniciar el proceso de evaluación crediticia.</p>
         </div>
 
-        <!-- FILTER TOOLBAR -->
+        <!-- FILTROS + BOTÓN NUEVO -->
         <div class="filter-toolbar">
-          <span class="filter-toolbar-label">FILTROS</span>
-          <button class="filter-chip active">Todas las Marcas</button>
-          <button class="filter-chip">Toyota</button>
-          <button class="filter-chip">Volkswagen</button>
-          <button class="filter-chip">Hyundai</button>
-          <button class="filter-chip">Todos los Años</button>
+          <span class="filter-toolbar-label">MARCA</span>
+          <button class="filter-chip"
+                  [class.active]="filtroMarca() === 'TODAS'"
+                  (click)="aplicarFiltroMarca('TODAS')">
+            Todas las Marcas
+          </button>
+          @for (marca of marcasDisponibles(); track marca) {
+            <button class="filter-chip"
+                    [class.active]="filtroMarca() === marca"
+                    (click)="aplicarFiltroMarca(marca)">
+              {{ marca }}
+            </button>
+          }
+
+          <span class="filter-toolbar-label" style="margin-left:12px">AÑO</span>
+          <button class="filter-chip"
+                  [class.active]="filtroAnio() === 'TODOS'"
+                  (click)="aplicarFiltroAnio('TODOS')">
+            Todos los Años
+          </button>
+          @for (anio of aniosDisponibles(); track anio) {
+            <button class="filter-chip"
+                    [class.active]="filtroAnio() === anio.toString()"
+                    (click)="aplicarFiltroAnio(anio.toString())">
+              {{ anio }}
+            </button>
+          }
+
           <div class="filter-spacer"></div>
+          <button class="btn-add" (click)="abrirNuevo()">
+            <span>+</span><span>Registrar Vehículo</span>
+          </button>
         </div>
 
-        <!-- VEHICLE GRID -->
+        <!-- ESTADO: CARGANDO / ERROR / VACÍO -->
+        @if (cargando()) {
+          <div class="status-message">Cargando inventario...</div>
+        }
+        @if (error()) {
+          <div class="status-message status-error">{{ error() }}</div>
+        }
+        @if (!cargando() && !error() && vehiculosFiltrados().length === 0) {
+          <div class="status-message">No hay vehículos que coincidan con los filtros.</div>
+        }
+
+        <!-- GRID DE VEHÍCULOS -->
         <div class="vehicle-grid">
-
-          <!-- Card 1 -->
-          <div class="vehicle-card">
-            <div class="vehicle-card-img-placeholder">
-              <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="Toyota Hilux" style="width:100%;height:100%;object-fit:cover;display:block">
-            </div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-top">
-                <span class="vehicle-card-name">Toyota Hilux 4x4</span>
-                <div class="vehicle-price-block">
-                  <span class="vehicle-price-label">PRECIO BASE</span>
-                  <span class="vehicle-price-value">$ 42,500</span>
+          @for (v of vehiculosFiltrados(); track v.idVehiculo) {
+            <div class="vehicle-card">
+              <div class="vehicle-card-img-placeholder">
+                <span style="font-size:48px">🚗</span>
+              </div>
+              <div class="vehicle-card-body">
+                <div class="vehicle-card-top">
+                  <span class="vehicle-card-name">{{ v.marca }} {{ v.modelo }}</span>
+                  <div class="vehicle-price-block">
+                    <span class="vehicle-price-label">PRECIO BASE</span>
+                    <span class="vehicle-price-value">{{ formatearPrecio(v) }}</span>
+                  </div>
+                </div>
+                <div class="vehicle-card-variant">{{ v.descripcion || 'Sin descripción' }}</div>
+                <span class="status-badge badge-available">● Disponible</span>
+                <div class="vehicle-card-divider" style="margin-top:12px"></div>
+                <div class="vehicle-card-meta">
+                  <div>
+                    <div class="meta-item-label">AÑO</div>
+                    <div class="meta-item-value">{{ v.anio }}</div>
+                  </div>
+                  <div>
+                    <div class="meta-item-label">MONEDA</div>
+                    <div class="meta-item-value">{{ v.moneda }}</div>
+                  </div>
                 </div>
               </div>
-              <div class="vehicle-card-variant">Doble Cabina SRV</div>
-              <span class="status-badge badge-available">● Disponible</span>
-              <div class="vehicle-card-divider" style="margin-top:12px"></div>
-              <div class="vehicle-card-meta">
-                <div>
-                  <div class="meta-item-label">AÑO</div>
-                  <div class="meta-item-value">2024</div>
-                </div>
-                <div>
-                  <div class="meta-item-label">COMBUSTIBLE</div>
-                  <div class="meta-item-value">Diésel</div>
-                </div>
+              <div class="vehicle-card-footer">
+                <button class="btn-card-secondary" (click)="verDetalles(v)">Ver Detalles</button>
+                <button class="btn-card-primary" (click)="seleccionar(v)">Seleccionar</button>
+              </div>
+              <div class="vehicle-card-quickactions">
+                <button class="quick-action" title="Editar" (click)="abrirEditar(v)">✏️</button>
+                <button class="quick-action quick-action-danger" title="Eliminar" (click)="eliminar(v)">🗑️</button>
               </div>
             </div>
-            <div class="vehicle-card-footer">
-              <button class="btn-card-secondary">Ver Detalles</button>
-              <button class="btn-card-primary">Seleccionar</button>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="vehicle-card">
-            <div class="vehicle-card-img-placeholder">
-              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80" alt="VW Jetta" style="width:100%;height:100%;object-fit:cover;display:block">
-            </div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-top">
-                <span class="vehicle-card-name">VW Jetta Highline</span>
-                <div class="vehicle-price-block">
-                  <span class="vehicle-price-label">PRECIO BASE</span>
-                  <span class="vehicle-price-value">$ 28,900</span>
-                </div>
-              </div>
-              <div class="vehicle-card-variant">1.4 TSI Automático</div>
-              <span class="status-badge badge-available">● Disponible</span>
-              <div class="vehicle-card-divider" style="margin-top:12px"></div>
-              <div class="vehicle-card-meta">
-                <div>
-                  <div class="meta-item-label">AÑO</div>
-                  <div class="meta-item-value">2023</div>
-                </div>
-                <div>
-                  <div class="meta-item-label">COMBUSTIBLE</div>
-                  <div class="meta-item-value">Gasolina</div>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-card-footer">
-              <button class="btn-card-secondary">Ver Detalles</button>
-              <button class="btn-card-primary">Seleccionar</button>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="vehicle-card">
-            <div class="vehicle-card-img-placeholder">
-              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
-            </div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-top">
-                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
-                <div class="vehicle-price-block">
-                  <span class="vehicle-price-label">PRECIO BASE</span>
-                  <span class="vehicle-price-value">$ 35,200</span>
-                </div>
-              </div>
-              <div class="vehicle-card-variant">2.5 GDi AWD</div>
-              <span class="status-badge badge-reserved">● Reservado</span>
-              <div class="vehicle-card-divider" style="margin-top:12px"></div>
-              <div class="vehicle-card-meta">
-                <div>
-                  <div class="meta-item-label">AÑO</div>
-                  <div class="meta-item-value">2024</div>
-                </div>
-                <div>
-                  <div class="meta-item-label">COMBUSTIBLE</div>
-                  <div class="meta-item-value">Híbrido</div>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-card-footer">
-              <button class="btn-card-secondary">Ver Detalles</button>
-              <button class="btn-card-primary">Seleccionar</button>
-            </div>
-          </div>
-
- <!-- Card 3 -->
-          <div class="vehicle-card">
-            <div class="vehicle-card-img-placeholder">
-              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
-            </div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-top">
-                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
-                <div class="vehicle-price-block">
-                  <span class="vehicle-price-label">PRECIO BASE</span>
-                  <span class="vehicle-price-value">$ 35,200</span>
-                </div>
-              </div>
-              <div class="vehicle-card-variant">2.5 GDi AWD</div>
-              <span class="status-badge badge-reserved">● Reservado</span>
-              <div class="vehicle-card-divider" style="margin-top:12px"></div>
-              <div class="vehicle-card-meta">
-                <div>
-                  <div class="meta-item-label">AÑO</div>
-                  <div class="meta-item-value">2024</div>
-                </div>
-                <div>
-                  <div class="meta-item-label">COMBUSTIBLE</div>
-                  <div class="meta-item-value">Híbrido</div>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-card-footer">
-              <button class="btn-card-secondary">Ver Detalles</button>
-              <button class="btn-card-primary">Seleccionar</button>
-            </div>
-          </div>
-           <!-- Card 3 -->
-          <div class="vehicle-card">
-            <div class="vehicle-card-img-placeholder">
-              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hyundai Tucson" style="width:100%;height:100%;object-fit:cover;display:block">
-            </div>
-            <div class="vehicle-card-body">
-              <div class="vehicle-card-top">
-                <span class="vehicle-card-name">Hyundai Tucson NLine</span>
-                <div class="vehicle-price-block">
-                  <span class="vehicle-price-label">PRECIO BASE</span>
-                  <span class="vehicle-price-value">$ 35,200</span>
-                </div>
-              </div>
-              <div class="vehicle-card-variant">2.5 GDi AWD</div>
-              <span class="status-badge badge-reserved">● Reservado</span>
-              <div class="vehicle-card-divider" style="margin-top:12px"></div>
-              <div class="vehicle-card-meta">
-                <div>
-                  <div class="meta-item-label">AÑO</div>
-                  <div class="meta-item-value">2024</div>
-                </div>
-                <div>
-                  <div class="meta-item-label">COMBUSTIBLE</div>
-                  <div class="meta-item-value">Híbrido</div>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-card-footer">
-              <button class="btn-card-secondary">Ver Detalles</button>
-              <button class="btn-card-primary">Seleccionar</button>
-            </div>
-          </div>
+          }
         </div>
 
       </div>
@@ -269,4 +146,96 @@
 
   </div>
 </div>
-</body>
+
+<!-- ===================== MODAL CREAR / EDITAR ===================== -->
+@if (modalAbierto()) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ modoEdicion() ? 'Editar Vehículo' : 'Registrar Nuevo Vehículo' }}</h2>
+        <button class="modal-close" (click)="cerrarModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-field">
+            <label>MARCA <span class="required">*</span></label>
+            <input type="text"
+                   [ngModel]="vehiculoForm().marca"
+                   (ngModelChange)="actualizarCampo('marca', $event)"
+                   placeholder="Ej. Toyota">
+          </div>
+          <div class="form-field">
+            <label>MODELO <span class="required">*</span></label>
+            <input type="text"
+                   [ngModel]="vehiculoForm().modelo"
+                   (ngModelChange)="actualizarCampo('modelo', $event)"
+                   placeholder="Ej. Hilux 4x4">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>AÑO <span class="required">*</span></label>
+            <input type="number"
+                   [ngModel]="vehiculoForm().anio"
+                   (ngModelChange)="actualizarCampo('anio', +$event)"
+                   min="1980" max="2030">
+          </div>
+          <div class="form-field">
+            <label>MONEDA <span class="required">*</span></label>
+            <select [ngModel]="vehiculoForm().moneda"
+                    (ngModelChange)="actualizarCampo('moneda', $event)">
+              <option value="PEN">PEN (Soles)</option>
+              <option value="USD">USD (Dólares)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>PRECIO <span class="required">*</span></label>
+            <input type="number"
+                   [ngModel]="vehiculoForm().precio"
+                   (ngModelChange)="actualizarCampo('precio', +$event)"
+                   min="0" step="100">
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>DESCRIPCIÓN</label>
+          <textarea rows="3"
+                    [ngModel]="vehiculoForm().descripcion"
+                    (ngModelChange)="actualizarCampo('descripcion', $event)"
+                    placeholder="Ej. Doble Cabina SRV — Diésel — Automático"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-card-secondary" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-card-primary" (click)="guardar()">
+          {{ modoEdicion() ? 'Guardar Cambios' : 'Registrar Vehículo' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ===================== MODAL DETALLES ===================== -->
+@if (detallesAbierto() && vehiculoDetalle(); as v) {
+  <div class="modal-overlay" (click)="cerrarDetalles()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ v.marca }} {{ v.modelo }}</h2>
+        <button class="modal-close" (click)="cerrarDetalles()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row"><span>Año</span><strong>{{ v.anio }}</strong></div>
+        <div class="detail-row"><span>Moneda</span><strong>{{ v.moneda }}</strong></div>
+        <div class="detail-row"><span>Precio</span><strong>{{ formatearPrecio(v) }}</strong></div>
+        <div class="detail-row"><span>Descripción</span><strong>{{ v.descripcion || '—' }}</strong></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-card-secondary" (click)="cerrarDetalles()">Cerrar</button>
+        <button class="btn-card-primary" (click)="seleccionar(v)">Seleccionar para Simulación</button>
+      </div>
+    </div>
+  </div>
+}
