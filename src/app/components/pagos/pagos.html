@@ -154,7 +154,9 @@
           <div class="kpi-card">
             <span class="kpi-corner-icon">📊</span>
             <div class="kpi-card-label">VAN (NPV)</div>
-            <div class="kpi-card-value">S/ 48,250.00</div>
+            <div class="kpi-card-value">
+              S/ {{ simulationState.resultado?.van | number:'1.2-2' }}
+            </div>
             <div class="kpi-card-sublabel">Tasa de Descuento: 12.5%</div>
             <span class="kpi-trend-badge neutral">↗ Positivo</span>
           </div>
@@ -162,7 +164,9 @@
           <div class="kpi-card">
             <span class="kpi-corner-icon">📈</span>
             <div class="kpi-card-label">TIR (IRR)</div>
-            <div class="kpi-card-value accent-blue">16.42%</div>
+            <div class="kpi-card-value accent-blue">
+              {{ (simulationState.resultado?.tir ?? 0) * 100 | number:'1.2-2' }}%
+            </div>
             <div class="kpi-card-sublabel">Tasa Efectiva Anual (TEA)</div>
             <span class="kpi-trend-badge up">↑ Por encima del mercado</span>
           </div>
@@ -170,16 +174,19 @@
           <div class="kpi-card">
             <span class="kpi-corner-icon">💰</span>
             <div class="kpi-card-label">Total Intereses</div>
-            <div class="kpi-card-value">S/ 12,480.50</div>
+            <div class="kpi-card-value">
+              S/ {{ simulationState.resultado?.totalIntereses | number:'1.2-2' }}
+            </div>
             <div class="kpi-card-sublabel">Durante 36 Meses</div>
           </div>
 
           <div class="kpi-card">
-            <span class="kpi-corner-icon">✅</span>
-            <div class="kpi-card-label">Estado del Cronograma</div>
-            <div class="kpi-card-value accent-green" style="font-size:18px; margin-top:4px;">Aprobado</div>
-            <div class="kpi-card-sublabel">Generado el 15-10-2023</div>
-            <span class="kpi-trend-badge approved">● Activo</span>
+            <span class="kpi-corner-icon">📈</span>
+            <div class="kpi-card-label">TCEA</div>
+            <div class="kpi-card-value accent-blue">
+              {{ (simulationState.resultado?.tcea ?? 0) * 100 | number:'1.2-2' }}%
+            </div>
+            <div class="kpi-card-sublabel">Tasa Costo Efectiva Anual (TCEA)</div>
           </div>
 
         </div>
@@ -217,11 +224,14 @@
                 <tr>
                   <th>N°</th>
                   <th>Fecha</th>
-                  <th>Cuota</th>
                   <th>Interés</th>
-                  <th>Amortización</th>
-                  <th>Tipo de Gracia</th>
-                  <th>Saldo</th>
+                  <th>Cuota (inc Seg Des)</th>
+                  <th>Amort.</th>
+                  <th>Seguro Desgrav.</th>
+                  <th>Seguro Riesgo</th>
+                  <th>Portes</th>
+                  <th>Saldo Final</th>
+                  <th>Flujo</th>
                 </tr>
               </thead>
               <tbody>
@@ -233,83 +243,53 @@
 
                   <tr>
 
-                    <td class="cell-n">
-                      {{ cuota.numeroCuota }}
-                    </td>
+                    <td>{{ cuota.numeroCuota }}</td>
 
-                    <td class="cell-date">
-                      {{ cuota.fechaPago }}
-                    </td>
+                    <td>{{ cuota.fechaPago }}</td>
 
-                    <td class="cell-cuota">
-                      {{ cuota.cuotaTotal | number:'1.2-2' }}
-                    </td>
-
-                    <td class="cell-interes">
+                    <td>
                       {{ cuota.interes | number:'1.2-2' }}
                     </td>
 
-                    <td class="cell-amort">
+                    <td>
+                      {{ cuota.cuotaTotal | number:'1.2-2' }}
+                    </td>
+
+                    <td>
                       {{ cuota.amortizacion | number:'1.2-2' }}
                     </td>
 
                     <td>
+                      {{ cuota.seguroDesgravamen | number:'1.2-2' }}
+                    </td>
 
-                    <span class="grace-badge">
+                    <td>
+                      {{ cuota.seguroVehicular | number:'1.2-2' }}
+                    </td>
 
-                    {{ cuota.tipoPeriodo }}
+                    <td>
+                      {{ cuota.portes | number:'1.2-2' }}
+                    </td>
 
-                    </span>
+                    <td>
+                      {{ cuota.saldoFinal | number:'1.2-2' }}
+                    </td>
 
-                      </td>
+                    <td>
+                      {{
+                        -(
+                          cuota.cuotaTotal
+                        ) | number:'1.2-2'
+                      }}
+                    </td>
 
-                      <td class="cell-saldo">
-
-                        {{ cuota.saldoFinal | number:'1.2-2' }}
-
-                      </td>
-
-                    </tr>
+                  </tr>
 
                   }
 
                 </tbody>
 
-              <tfoot>
-                <tr>
-                  <td colspan="2"><span class="tfoot-total-label">TOTALES</span></td>
-                  <td><span class="tfoot-total-value-main">57,480.50</span></td>
-                  <td><span class="tfoot-total-value-interest">12,480.50</span></td>
-                  <td><span class="tfoot-total-value-main">45,000.00</span></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tfoot>
             </table>
-          </div>
-
-          <!-- Bottom Summary Strip -->
-          <div class="bottom-summary-strip">
-            <div class="summary-strip-cell">
-              <span class="strip-label">Capital Financiado</span>
-              <span class="strip-value">S/ 45,000.00</span>
-            </div>
-            <div class="summary-strip-cell">
-              <span class="strip-label">Total Interés Acumulado</span>
-              <span class="strip-value blue">S/ 12,480.50</span>
-            </div>
-            <div class="summary-strip-cell">
-              <span class="strip-label">Desembolso Total</span>
-              <span class="strip-value">S/ 57,480.50</span>
-            </div>
-            <div class="summary-strip-cell">
-              <span class="strip-label">T.E.A Aplicada</span>
-              <span class="strip-value blue">14.50%</span>
-            </div>
-            <div class="summary-strip-cell">
-              <span class="strip-label">Cuotas con Periodo de Gracia</span>
-              <span class="strip-value">2 de 36</span>
-            </div>
           </div>
 
           <!-- Pagination -->

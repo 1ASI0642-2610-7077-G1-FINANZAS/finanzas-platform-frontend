@@ -247,7 +247,7 @@
                     <span class="slider-dynamic-percentage">{{ simulationForm.get('valorResidualPercent')?.value }}%</span>
                   </div>
                   <div class="slider-alignment-row">
-                    <mat-slider min="0" max="50" step="5" discrete class="material-custom-slider">
+                    <mat-slider min="0" [max]="maxResidualPermitido" step="5" discrete class="material-custom-slider">
                       <input matSliderThumb formControlName="valorResidualPercent" />
                     </mat-slider>
                   </div>

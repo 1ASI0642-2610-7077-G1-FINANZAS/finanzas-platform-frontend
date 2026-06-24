@@ -19,7 +19,7 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './pagos.css',
 })
 export class Pagos {
-  private readonly simulationState =
+  protected readonly simulationState =
     inject(SimulationStateService);
 
   private readonly clienteService =
@@ -127,6 +127,10 @@ export class Pagos {
       idCliente: this.selectedCliente,
       idVehiculo: this.selectedVehiculo
     };
+
+    console.log(
+      JSON.stringify(creditoRequest, null, 2)
+    );
 
     this.creditoService.crearCredito(creditoRequest)
       .subscribe({

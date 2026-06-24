@@ -5,6 +5,8 @@ export class CreditoRequest {
   moneda: string;
   tipoTasa: string;
   tasaInteres: number;
+
+  tasaDescuento: number;
   frecuenciaCapitalizacion?: string;
 
   plazoMeses: number;
@@ -21,4 +23,6 @@ export class CreditoRequest {
   portes: number;
 
   fechaInicio: string;
+
+
 }

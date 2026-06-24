@@ -64,7 +64,7 @@ export class Simulation implements OnInit {
     rateType: ['TEA'],
     rateValue: [14.5, [Validators.required, Validators.min(0), Validators.max(50)]],
     capitalizationFrequency: [{ value: 'No Aplica (Efectiva)', disabled: true }],
-    totalMonths: [36, [Validators.required, Validators.min(12), Validators.max(72)]],
+    totalMonths: [36, [Validators.required, Validators.min(24), Validators.max(36)]],
     gracePeriodType: ['Sin Gracia'],
     gracePeriodDuration: [0, [Validators.required, Validators.min(0)]],
     valorResidualPercent: [35, [Validators.required, Validators.min(0), Validators.max(50)]],
@@ -146,8 +146,30 @@ export class Simulation implements OnInit {
     if (!v) return;
 
     const pctInicial = this.simulationForm.get('initialQuotaPercent')?.value ?? 0;
-    const pctResidual = this.simulationForm.get('valorResidualPercent')?.value ?? 0;
+    let pctResidual = this.simulationForm.get('valorResidualPercent')?.value ?? 0;
 
+    // 1. Obtenemos el tope dinámico
+    const finalMax = this.maxResidualPermitido;
+
+    // 2. Ajustar el control del formulario dinámicamente
+    const residualControl = this.simulationForm.get('valorResidualPercent');
+    if (residualControl) {
+      residualControl.setValidators([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(finalMax)
+      ]);
+
+      // Si el usuario mueve la inicial muy alto y el residual queda fuera de límite, lo bajamos
+      if (pctResidual > finalMax) {
+        pctResidual = finalMax;
+        residualControl.setValue(finalMax, { emitEvent: false });
+      }
+
+      residualControl.updateValueAndValidity({ emitEvent: false });
+    }
+
+    // 3. Cálculos finales para la vista HTML
     this.cuotaInicialMonto = +(v.precio * (pctInicial / 100)).toFixed(2);
     this.financedCapital = +(v.precio - this.cuotaInicialMonto).toFixed(2);
     this.valorResidualMonto = +(v.precio * (pctResidual / 100)).toFixed(2);
@@ -180,6 +202,7 @@ export class Simulation implements OnInit {
       moneda: 'PEN',
       tipoTasa: fv.rateType === 'TEA' ? 'EFECTIVA' : 'NOMINAL',
       tasaInteres: fv.rateValue,
+      tasaDescuento: 10,
       frecuenciaCapitalizacion: 'MENSUAL',
       plazoMeses: fv.totalMonths,
       tipoGracia: this.mapGraceType(fv.gracePeriodType),
@@ -238,5 +261,11 @@ export class Simulation implements OnInit {
 
   nombreCliente(c: Cliente): string {
     return `${c.nombres} ${c.apellidos} — ${c.tipoDocumento} ${c.numeroDocumento}`;
+  }
+
+  get maxResidualPermitido(): number {
+    const pctInicial = this.simulationForm.get('initialQuotaPercent')?.value ?? 0;
+    // El límite es 100 menos la inicial, pero topeado a 50% por regla de Compra Inteligente
+    return Math.min(50, 100 - pctInicial);
   }
 }
