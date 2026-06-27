@@ -2,11 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vehiculo } from '../model/vehiculo';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class VehiculoService {
   private http = inject(HttpClient);
-  private readonly API = 'http://localhost:8080/api/vehiculos';
+  private readonly API = `${environment.apiUrl}/api/vehiculos`;
 
   listarVehiculos(): Observable<Vehiculo[]> {
     return this.http.get<Vehiculo[]>(this.API);
