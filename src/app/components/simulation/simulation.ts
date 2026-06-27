@@ -202,7 +202,7 @@ export class Simulation implements OnInit {
       moneda: 'PEN',
       tipoTasa: fv.rateType === 'TEA' ? 'EFECTIVA' : 'NOMINAL',
       tasaInteres: fv.rateValue,
-      tasaDescuento: 10,
+      tasaDescuento: 50,
       frecuenciaCapitalizacion: 'MENSUAL',
       plazoMeses: fv.totalMonths,
       tipoGracia: this.mapGraceType(fv.gracePeriodType),
@@ -215,6 +215,10 @@ export class Simulation implements OnInit {
       portes: fv.portes,
       fechaInicio: new Date().toISOString().split('T')[0],
     };
+
+    this.simulationState.resultado = undefined;
+    this.simulationState.creditoRequest = undefined;
+    this.cronograma = [];
 
     this.creditoService.simular(request).subscribe({
       next: (response) => {

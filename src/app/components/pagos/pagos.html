@@ -235,60 +235,28 @@
                 </tr>
               </thead>
               <tbody>
-
                 @for (
                   cuota of paginatedCronograma;
                   track cuota.numeroCuota
                   ) {
-
                   <tr>
-
                     <td>{{ cuota.numeroCuota }}</td>
-
                     <td>{{ cuota.fechaPago }}</td>
 
-                    <td>
-                      {{ cuota.interes | number:'1.2-2' }}
-                    </td>
+                    <td>{{ cuota.regularInteres | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularCuotaTotal | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularAmortizacion | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularSeguro | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularRiesgo | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularPortes | number:'1.2-2' }}</td>
+                    <td>{{ cuota.regularSaldoFinal | number:'1.2-2' }}</td>
 
                     <td>
-                      {{ cuota.cuotaTotal | number:'1.2-2' }}
+                      {{ cuota.flujo === 0 ? '0.00' : -(cuota.flujo) | number:'1.2-2' }}
                     </td>
-
-                    <td>
-                      {{ cuota.amortizacion | number:'1.2-2' }}
-                    </td>
-
-                    <td>
-                      {{ cuota.seguroDesgravamen | number:'1.2-2' }}
-                    </td>
-
-                    <td>
-                      {{ cuota.seguroVehicular | number:'1.2-2' }}
-                    </td>
-
-                    <td>
-                      {{ cuota.portes | number:'1.2-2' }}
-                    </td>
-
-                    <td>
-                      {{ cuota.saldoFinal | number:'1.2-2' }}
-                    </td>
-
-                    <td>
-                      {{
-                        -(
-                          cuota.cuotaTotal
-                        ) | number:'1.2-2'
-                      }}
-                    </td>
-
                   </tr>
-
-                  }
-
-                </tbody>
-
+                }
+              </tbody>
             </table>
           </div>
 
