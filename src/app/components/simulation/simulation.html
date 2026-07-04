@@ -171,7 +171,6 @@
                 <div class="input-cell-wrapper radio-group-spacing">
                   <label class="input-cell-label">TIPO DE TASA DE INTERÉS</label>
                   <mat-radio-group formControlName="rateType" color="primary" class="custom-radio-flex-row">
-                    <mat-radio-button value="TNA">Tasa Nominal (TNA)</mat-radio-button>
                     <mat-radio-button value="TEA">Tasa Efectiva (TEA)</mat-radio-button>
                   </mat-radio-group>
                 </div>
@@ -182,12 +181,10 @@
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
                       <input matInput id="rateValue" type="number" formControlName="rateValue" step="0.01" />
                       <span matSuffix class="input-symbol-suffix">%</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="input-cell-wrapper">
-                    <label class="input-cell-label" for="capitalizationFrequency">FRECUENCIA DE CAPITALIZACIÓN</label>
-                    <mat-form-field appearance="outline" class="material-custom-input mat-field-disabled-state" subscriptSizing="fixed">
-                      <input matInput id="capitalizationFrequency" formControlName="capitalizationFrequency" />
+                      <!-- NUEVO: Alerta visual debajo del input -->
+                      @if (simulationForm.get('rateValue')?.invalid && simulationForm.get('rateValue')?.touched) {
+                        <mat-error style="font-size: 11px; margin-top: 4px;">Rango permitido: 7.99% a 26.00%</mat-error>
+                      }
                     </mat-form-field>
                   </div>
                 </div>
@@ -262,20 +259,24 @@
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
                       <input matInput id="seguroDesgravamen" type="number" formControlName="seguroDesgravamen" step="0.001" />
                       <span matSuffix class="input-symbol-suffix">%</span>
+                      <!-- NUEVO: Alerta visual -->
+                      @if (simulationForm.get('seguroDesgravamen')?.invalid && simulationForm.get('seguroDesgravamen')?.touched) {
+                        <mat-error style="font-size: 11px; margin-top: 4px;">Rango: 0.030% a 0.120%</mat-error>
+                      }
                     </mat-form-field>
                   </div>
                   <div class="input-cell-wrapper">
-                    <label class="input-cell-label" for="seguroVehicular">SEGURO VEHICULAR</label>
+                    <label class="input-cell-label" for="porcentajeSeguroRiesgo">SEGURO RIESGO</label>
                     <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
-                      <input matInput id="seguroVehicular" type="number" formControlName="seguroVehicular" step="0.001" />
+                      <!-- Recuerda que si reciclaste el campo, aquí debe decir formControlName="seguroVehicular" -->
+                      <input matInput id="porcentajeSeguroRiesgo" type="number" formControlName="seguroVehicular" step="0.01" />
                       <span matSuffix class="input-symbol-suffix">%</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="input-cell-wrapper">
-                    <label class="input-cell-label" for="portes">PORTES MENSUALES</label>
-                    <mat-form-field appearance="outline" class="material-custom-input" subscriptSizing="fixed">
-                      <span matPrefix class="currency-symbol-prefix">S/&nbsp;</span>
-                      <input matInput id="portes" type="number" formControlName="portes" step="0.01" />
+
+                      <!-- NUEVO: Alerta visual -->
+                      @if (simulationForm.get('seguroVehicular')?.invalid && simulationForm.get('seguroVehicular')?.touched) {
+                        <mat-error style="font-size: 11px; margin-top: 4px;">Rango: 2.50% a 8.00%</mat-error>
+                      }
+
                     </mat-form-field>
                   </div>
                 </div>
@@ -332,11 +333,11 @@
               </mat-card-content>
 
               <div class="financial-card-actions-area">
-                <button mat-flat-button class="action-btn-dark-flat" (click)="generateAmortization()" [disabled]="simulationForm.invalid">
+                <button mat-flat-button class="action-btn-dark-flat" (click)="generateAmortization()">
                   <span style="font-size:14px">▶</span>
                   <span>Generar Amortización</span>
                 </button>
-                <button mat-stroked-button class="action-btn-light-stroked" (click)="saveScenario()" [disabled]="simulationForm.invalid">
+                <button mat-stroked-button class="action-btn-light-stroked" (click)="saveScenario()">
                   <span>Guardar Escenario</span>
                 </button>
               </div>

@@ -60,17 +60,17 @@ export class Simulation implements OnInit {
   // ===== FORM =====
   readonly simulationForm = this.fb.group({
     idCliente: [0, [Validators.required, Validators.min(1)]],
-    initialQuotaPercent: [20, [Validators.required, Validators.min(20), Validators.max(80)]],
+    initialQuotaPercent: [20, [Validators.required, Validators.min(0), Validators.max(45)]],
     rateType: ['TEA'],
-    rateValue: [14.5, [Validators.required, Validators.min(0), Validators.max(50)]],
+    rateValue: [14.5, [Validators.required, Validators.min(7.99), Validators.max(26.00)]],
     capitalizationFrequency: [{ value: 'No Aplica (Efectiva)', disabled: true }],
     totalMonths: [36, [Validators.required, Validators.min(24), Validators.max(36)]],
     gracePeriodType: ['Sin Gracia'],
     gracePeriodDuration: [0, [Validators.required, Validators.min(0)]],
     valorResidualPercent: [35, [Validators.required, Validators.min(0), Validators.max(50)]],
-    seguroDesgravamen: [0.077, [Validators.min(0)]],
-    seguroVehicular: [0.05, [Validators.min(0)]],
-    portes: [10, [Validators.min(0)]],
+    seguroDesgravamen: [0.077, [Validators.min(0.030), Validators.max(0.120)]],
+    seguroVehicular: [5.00, [Validators.min(2.50), Validators.max(8.00)]],
+    portes: [0],
   });
 
   // ===== VALORES CALCULADOS EN VIVO =====
@@ -188,7 +188,33 @@ export class Simulation implements OnInit {
     }
     if (this.simulationForm.invalid) {
       this.simulationForm.markAllAsTouched();
-      this.snackBar.open('Revisa los campos del formulario', 'Cerrar', { duration: 3000 });
+
+      const controls = this.simulationForm.controls;
+      let mensajeAlerta = 'Revisa los campos marcados en rojo.';
+
+      // Validamos uno por uno para mostrar el alert correcto
+      if (controls.initialQuotaPercent.hasError('min') || controls.initialQuotaPercent.hasError('max')) {
+        mensajeAlerta = 'Política de banco: La cuota inicial debe estar entre 0% y 45%.';
+      }
+      else if (controls.rateValue.hasError('min') || controls.rateValue.hasError('max')) {
+        mensajeAlerta = 'Política de mercado: La TEA para Compra Inteligente debe estar entre 7.99% y 26.00%.';
+      }
+      else if (controls.valorResidualPercent.hasError('min') || controls.valorResidualPercent.hasError('max')) {
+        mensajeAlerta = 'Estructura Balloon: El Valor Residual final debe ser entre 30% y 50%.';
+      }
+      else if (controls.seguroDesgravamen.hasError('min') || controls.seguroDesgravamen.hasError('max')) {
+        mensajeAlerta = 'Tasa regulatoria: El seguro de desgravamen debe estar entre 0.030% y 0.120% mensual.';
+      }
+      else if (controls.seguroVehicular?.hasError('min') || controls.seguroVehicular?.hasError('max')) {
+        mensajeAlerta = 'Perfil de Riesgo: El seguro vehicular debe estar entre 2.50% y 8.00% anual.';
+      }
+
+      // Mostramos la alerta emergente
+      this.snackBar.open('❌ ' + mensajeAlerta, 'Corregir', {
+        duration: 6000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
       return;
     }
 
@@ -196,13 +222,15 @@ export class Simulation implements OnInit {
     const cuotaInicial = +(v.precio * (fv.initialQuotaPercent / 100)).toFixed(2);
     const valorResidual = +(v.precio * (fv.valorResidualPercent / 100)).toFixed(2);
 
+    const seguroRiesgoMensual = +(((fv.seguroVehicular / 100) * v.precio) / 12).toFixed(2);
+
     const request = {
       idCliente: fv.idCliente,
       idVehiculo: v.idVehiculo!,
       moneda: 'PEN',
       tipoTasa: fv.rateType === 'TEA' ? 'EFECTIVA' : 'NOMINAL',
       tasaInteres: fv.rateValue,
-      tasaDescuento: 50,
+      tasaDescuento: fv.rateValue + 1,
       frecuenciaCapitalizacion: 'MENSUAL',
       plazoMeses: fv.totalMonths,
       tipoGracia: this.mapGraceType(fv.gracePeriodType),
@@ -211,8 +239,8 @@ export class Simulation implements OnInit {
       cuotaInicial: cuotaInicial,
       valorResidual: valorResidual,
       seguroDesgravamen: fv.seguroDesgravamen,
-      seguroVehicular: fv.seguroVehicular,
-      portes: fv.portes,
+      seguroVehicular: seguroRiesgoMensual,
+      portes: 0,
       fechaInicio: new Date().toISOString().split('T')[0],
     };
 
