@@ -187,7 +187,6 @@
             <select [ngModel]="vehiculoForm().moneda"
                     (ngModelChange)="actualizarCampo('moneda', $event)">
               <option value="PEN">PEN (Soles)</option>
-              <option value="USD">USD (Dólares)</option>
             </select>
           </div>
           <div class="form-field">
@@ -195,7 +194,10 @@
             <input type="number"
                    [ngModel]="vehiculoForm().precio"
                    (ngModelChange)="actualizarCampo('precio', +$event)"
-                   min="0" step="100">
+                   min="5000"
+                   max="500000"
+                   step="100"
+                   placeholder="Ej. 25000">
           </div>
         </div>
 

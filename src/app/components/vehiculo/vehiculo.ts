@@ -109,8 +109,12 @@ export class Vehiculo implements OnInit {
 
   guardar(): void {
     const v = this.vehiculoForm();
-    if (!this.formularioValido(v)) {
-      alert('Completa los campos obligatorios: marca, modelo, año, moneda y precio.');
+
+    // Obtenemos el mensaje de error (si existe)
+    const errorMsg = this.validarReglasDeNegocio(v);
+
+    if (errorMsg) {
+      alert(errorMsg); // ¡Aquí está el alert que pediste!
       return;
     }
 
@@ -137,6 +141,21 @@ export class Vehiculo implements OnInit {
         },
       });
     }
+  }
+
+  // ====== NUEVA FUNCIÓN DE VALIDACIÓN ======
+  private validarReglasDeNegocio(v: VehiculoModel): string | null {
+    if (!v.marca?.trim() || !v.modelo?.trim()) {
+      return 'Completa los campos obligatorios: Marca y Modelo.';
+    }
+    if (v.anio < 1980 || v.anio > 2030) {
+      return 'Por favor, ingresa un año válido para el vehículo.';
+    }
+    // Validación estricta del precio
+    if (v.precio < 5000 || v.precio > 500000) {
+      return '⛔ RECHAZADO: Según las políticas comerciales, el precio del vehículo debe estar entre 5,000 y 500,000 (PEN/USD).';
+    }
+    return null; // Null significa que todo está perfecto
   }
 
   // ====== ELIMINAR ======
