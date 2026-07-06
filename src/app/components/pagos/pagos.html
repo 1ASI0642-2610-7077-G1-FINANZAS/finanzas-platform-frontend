@@ -151,24 +151,36 @@
         <!-- KPI METRICS -->
         <div class="kpi-metrics-row">
 
-          <div class="kpi-card">
+          <div class="kpi-card"
+               title="Calculado sobre el flujo de cuotas puras (sin seguros). Evalúa la viabilidad de la estructura de capital.">
             <span class="kpi-corner-icon">📊</span>
-            <div class="kpi-card-label">VAN (NPV)</div>
+            <div class="kpi-card-label">VAN (Evaluación)</div>
             <div class="kpi-card-value">
               S/ {{ simulationState.resultado?.van | number:'1.2-2' }}
             </div>
-            <div class="kpi-card-sublabel">Tasa de Descuento: 12.5%</div>
+            <div class="kpi-card-sublabel">Flujo Puro (Sin Seguros)</div>
             <span class="kpi-trend-badge neutral">↗ Positivo</span>
           </div>
 
-          <div class="kpi-card">
+          <div class="kpi-card"
+               title="Tasa Interna de Retorno del flujo puro. Anualizada equivale exactamente a la TEA de la operación.">
             <span class="kpi-corner-icon">📈</span>
-            <div class="kpi-card-label">TIR (IRR)</div>
+            <div class="kpi-card-label">TIR (Flujo Puro)</div>
             <div class="kpi-card-value accent-blue">
               {{ (simulationState.resultado?.tir ?? 0) * 100 | number:'1.2-2' }}%
             </div>
-            <div class="kpi-card-sublabel">Tasa Efectiva Anual (TEA)</div>
-            <span class="kpi-trend-badge up">↑ Por encima del mercado</span>
+            <div class="kpi-card-sublabel">Equivale a la TEA</div>
+          </div>
+
+          <div class="kpi-card"
+               title="Art. 6 SBS: Tasa de Costo Efectivo Anual. Incluye intereses, comisiones, seguro de desgravamen y seguro vehicular sobre el préstamo.">
+            <span class="kpi-corner-icon">⚖️</span>
+            <div class="kpi-card-label">TCEA (Regulatoria)</div>
+            <div class="kpi-card-value accent-blue">
+              {{ (simulationState.resultado?.tcea ?? 0) * 100 | number:'1.2-2' }}%
+            </div>
+            <div class="kpi-card-sublabel">Flujo Real (Con Seguros)</div>
+            <span class="kpi-trend-badge up">Normativa SBS</span>
           </div>
 
           <div class="kpi-card">
@@ -177,16 +189,7 @@
             <div class="kpi-card-value">
               S/ {{ simulationState.resultado?.totalIntereses | number:'1.2-2' }}
             </div>
-            <div class="kpi-card-sublabel">Durante 36 Meses</div>
-          </div>
-
-          <div class="kpi-card">
-            <span class="kpi-corner-icon">📈</span>
-            <div class="kpi-card-label">TCEA</div>
-            <div class="kpi-card-value accent-blue">
-              {{ (simulationState.resultado?.tcea ?? 0) * 100 | number:'1.2-2' }}%
-            </div>
-            <div class="kpi-card-sublabel">Tasa Costo Efectiva Anual (TCEA)</div>
+            <div class="kpi-card-sublabel">Costo Financiero Neto</div>
           </div>
 
         </div>
