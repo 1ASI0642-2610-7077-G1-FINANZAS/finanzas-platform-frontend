@@ -197,16 +197,16 @@ export class Simulation implements OnInit {
         mensajeAlerta = 'Política de banco: La cuota inicial debe estar entre 0% y 45%.';
       }
       else if (controls.rateValue.hasError('min') || controls.rateValue.hasError('max')) {
-        mensajeAlerta = 'Política de mercado: La TEA para Compra Inteligente debe estar entre 7.99% y 26.00%.';
+        mensajeAlerta = 'Política de mercado: La TEA para Compra Inteligente debe estar entre 8.49% y 24.99%.';
       }
       else if (controls.valorResidualPercent.hasError('min') || controls.valorResidualPercent.hasError('max')) {
         mensajeAlerta = 'Estructura Balloon: El Valor Residual final debe ser entre 30% y 50%.';
       }
       else if (controls.seguroDesgravamen.hasError('min') || controls.seguroDesgravamen.hasError('max')) {
-        mensajeAlerta = 'Tasa regulatoria: El seguro de desgravamen debe estar entre 0.030% y 0.120% mensual.';
+        mensajeAlerta = 'Tasa regulatoria: El seguro de desgravamen debe estar entre 0.0375% y 0.800% mensual.';
       }
       else if (controls.seguroVehicular?.hasError('min') || controls.seguroVehicular?.hasError('max')) {
-        mensajeAlerta = 'Perfil de Riesgo: El seguro vehicular debe estar entre 2.50% y 8.00% anual.';
+        mensajeAlerta = 'Perfil de Riesgo: El seguro vehicular debe estar entre 0.27% y 4.90% anual.';
       }
 
       // Mostramos la alerta emergente
