@@ -67,7 +67,7 @@ export class Simulation implements OnInit {
     totalMonths: [36, [Validators.required, Validators.min(24), Validators.max(36)]],
     gracePeriodType: ['Sin Gracia'],
     gracePeriodDuration: [0, [Validators.required, Validators.min(0)]],
-    valorResidualPercent: [35, [Validators.required, Validators.min(0), Validators.max(50)]],
+    valorResidualPercent: [35, [Validators.required, Validators.min(1), Validators.max(50)]],
     seguroDesgravamen: [0.077, [Validators.min(0.0375), Validators.max(0.0800)]],
     seguroVehicular: [0.2700, [Validators.min(0.2700), Validators.max(4.90)]],
     portes: [0],
