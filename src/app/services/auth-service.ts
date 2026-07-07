@@ -18,7 +18,7 @@ export class AuthService {
   constructor() { }
 
   login(credentials: AuthRequest): Observable<any> {
-    return this.http.post<AuthResponse>(this.url + '/api/auth/login', credentials)
+    return this.http.post<AuthResponse>(`${this.url}/api/auth/login`, credentials)
       .pipe(
         map(resp => {
           localStorage.setItem('token',resp.token);
