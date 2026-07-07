@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://finanzas-platform-production.up.railway.app',
+  apiUrl: 'finanzas-platform-production-ff88.up.railway.app',
 }
